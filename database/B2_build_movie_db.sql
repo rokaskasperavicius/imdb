@@ -9,7 +9,11 @@ DROP TABLE IF EXISTS name_professions;
 DROP TABLE IF EXISTS professions;
 DROP TABLE IF EXISTS names;
 DROP TABLE IF EXISTS akas;
-DROP TABLE IF EXISTS basics;
+DROP TABLE IF EXISTS basics_genres;
+DROP TABLE IF EXISTS genres;
+-- This drops the foreign key constraints in user tables
+-- C2_build_framework_db.sql should be run afterwards!
+DROP TABLE IF EXISTS basics CASCADE;
 
 -- Clean up
 CREATE TABLE basics (
@@ -21,13 +25,28 @@ CREATE TABLE basics (
   startyear CHARACTER(4),
   endyear CHARACTER(4),
   runtimeminutes INT,
-  genres VARCHAR(256),
   plot TEXT,
   poster VARCHAR(180),
   PRIMARY KEY (tconst)
 );
+INSERT INTO basics (SELECT tconst, titletype, primarytitle, originaltitle, isadult, startyear, endyear, runtimeminutes FROM title_basics);
 
-INSERT INTO basics (SELECT * FROM title_basics);
+CREATE TABLE genres (
+  name VARCHAR(256) PRIMARY KEY
+);
+
+-- This basically creates a genres table with all distinct genres found in title_basics
+INSERT INTO genres (SELECT DISTINCT unnest(string_to_array(genres, ',')) AS name FROM title_basics);
+
+CREATE TABLE basics_genres (
+  tconst CHARACTER(10),
+  genre VARCHAR(256),
+  PRIMARY KEY (tconst, genre),
+  FOREIGN KEY (tconst) REFERENCES basics(tconst) ON DELETE CASCADE,
+  FOREIGN KEY (genre) REFERENCES genres(name) ON DELETE CASCADE
+);
+
+INSERT INTO basics_genres (SELECT tconst, unnest(string_to_array(genres, ',')) AS genre FROM title_basics);
 
 -- Update from omdb_data
 -- Only updates 115495 rows, out of 158974.
@@ -38,7 +57,6 @@ UPDATE basics SET plot = NULL WHERE plot = '' OR plot = 'N/A';
 UPDATE basics SET poster = NULL WHERE poster = 'N/A';
 UPDATE basics SET startyear = NULL WHERE startyear = '';
 UPDATE basics SET endyear = NULL WHERE endyear = '';
-UPDATE basics SET genres = NULL WHERE genres = '';
 
 CREATE TABLE akas (
   tconst CHARACTER(10),
@@ -75,9 +93,8 @@ CREATE TABLE professions (
   name VARCHAR(256) PRIMARY KEY
 );
 
--- Inspired by chatgpt which recommended to easily split comma separated values and find distinct values
 -- This basically creates a professions table with all distinct professions found in name_basics
-INSERT INTO professions (SELECT DISTINCT unnest(STRING_TO_ARRAY(primaryprofession, ',')) AS name FROM name_basics);
+INSERT INTO professions (SELECT DISTINCT unnest(string_to_array(primaryprofession, ',')) AS name FROM name_basics);
 
 CREATE TABLE name_professions (
   nconst CHARACTER(10),
@@ -87,7 +104,7 @@ CREATE TABLE name_professions (
   FOREIGN KEY (profession) REFERENCES professions(name) ON DELETE CASCADE
 );
 
-INSERT INTO name_professions (SELECT nconst, unnest(STRING_TO_ARRAY(primaryprofession, ',')) AS profession FROM name_basics);
+INSERT INTO name_professions (SELECT nconst, unnest(string_to_array(primaryprofession, ',')) AS profession FROM name_basics);
 
 CREATE TABLE name_known_for_titles (
   nconst CHARACTER(10),
@@ -98,6 +115,7 @@ CREATE TABLE name_known_for_titles (
 );
 
 -- Some titles in knownfortitles do not exist in basics, so we need to filter them out
+-- Out of 1,540,864 rows only 432,906 use valid tconsts
 INSERT INTO name_known_for_titles (nconst, tconst)
   SELECT nb.nconst, t.tconst
     FROM name_basics nb, unnest(string_to_array(nb.knownfortitles, ',')) AS t(tconst)
@@ -112,6 +130,7 @@ CREATE TABLE basics_directors (
 );
 
 -- Some people in directors do not exist in names, so we need to filter them out
+-- Out of 175,569 rows only 173,266 use valid nconsts
 INSERT INTO basics_directors (tconst, nconst)
   SELECT tc.tconst, t.nconst
     FROM title_crew tc, unnest(string_to_array(tc.directors, ',')) AS t(nconst)
@@ -126,6 +145,7 @@ CREATE TABLE basics_writers (
 );
 
 -- Some people in writers do not exist in names, so we need to filter them out
+-- Out of 239,511 rows only 224,666 use valid nconsts
 INSERT INTO basics_writers (tconst, nconst)
   SELECT tc.tconst, t.nconst
     FROM title_crew tc, unnest(string_to_array(tc.writers, ',')) AS t(nconst)
@@ -147,23 +167,26 @@ CREATE TABLE principals (
   tconst CHARACTER(10),
   ordering INT,
   nconst CHARACTER(10),
-  category VARCHAR(50),
+  category VARCHAR(50) NOT NULL,
   job TEXT,
   characters TEXT,
   PRIMARY KEY (tconst, ordering),
-  FOREIGN KEY (tconst, ordering) REFERENCES akas(tconst, ordering) ON DELETE CASCADE,
+  FOREIGN KEY (tconst) REFERENCES basics(tconst) ON DELETE CASCADE,
   FOREIGN KEY (nconst) REFERENCES names(nconst) ON DELETE CASCADE
 );
 
--- Some tconst and ordering are missing in akas, so we need to filter them out
+-- Some people in title_principals do not exist in names, so we need to filter them out
 INSERT INTO principals (tconst, ordering, nconst, category, job, characters)
   SELECT tp.tconst, tp.ordering, tp.nconst, tp.category, tp.job, tp.characters
-    FROM (
-      -- Some people in title_principals do not exist in names, so we need to filter them out
-      SELECT tp.tconst, tp.ordering, tp.nconst, tp.category, tp.job, tp.characters FROM title_principals tp
-	      INNER JOIN names n ON n.nconst = tp.nconst
-      ) tp
-    INNER JOIN akas a ON a.tconst = tp.tconst AND a.ordering = tp.ordering;
+    FROM title_principals tp
+    INNER JOIN name_basics nb ON nb.nconst = tp.nconst;
+
+UPDATE principals SET job = NULL WHERE job = '';
+-- Remove surrounding [' and ']
+UPDATE principals SET
+	characters = regexp_replace(characters, '^\[''|''\]$', '', 'g');
+-- Set rest of empty strings to NULL
+UPDATE principals SET characters = NULL WHERE characters = '';
 
 CREATE TABLE ratings (
   tconst CHARACTER(10),
