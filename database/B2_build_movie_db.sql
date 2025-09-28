@@ -208,3 +208,21 @@ CREATE TABLE word_indices (
 );
 
 INSERT INTO word_indices (SELECT * FROM wi);
+
+-- Indices
+CREATE INDEX IF NOT EXISTS idx_basics_primarytitle ON basics(primarytitle);
+CREATE INDEX IF NOT EXISTS idx_names_primaryname ON names(primaryname);
+CREATE INDEX IF NOT EXISTS idx_principals_nconst ON principals(nconst);
+CREATE INDEX IF NOT EXISTS idx_principals_characters ON principals(characters);
+CREATE INDEX IF NOT EXISTS idx_word_indices_word ON word_indices(word);
+
+-- Clean up old tables
+DROP TABLE IF EXISTS title_akas;
+DROP TABLE IF EXISTS title_basics;
+DROP TABLE IF EXISTS title_crew;
+DROP TABLE IF EXISTS title_episode;
+DROP TABLE IF EXISTS title_principals;
+DROP TABLE IF EXISTS title_ratings;
+DROP TABLE IF EXISTS name_basics;
+DROP TABLE IF EXISTS omdb_data;
+DROP TABLE IF EXISTS wi;

@@ -1,0 +1,129 @@
+CALL
+CALL
+CALL
+   tconst   |                    primarytitle                     
+------------+-----------------------------------------------------
+ tt9902734  | Josh Groban Bridges Live from Madison Square Garden
+ tt10198616 | Josh Groban: Stages Live
+ tt13544632 | Josh Groban: An Evening of Harmony
+(3 rows)
+
+   tconst   | averagerating | numvotes 
+------------+---------------+----------
+ tt0318848  |           9.6 |        5
+(1 row)
+
+CALL
+   tconst   | averagerating | numvotes 
+------------+---------------+----------
+ tt0318848  |           8.2 |        6
+(1 row)
+
+   tconst   |  primarytitle  
+------------+----------------
+ tt12054924 | Some Good News
+(1 row)
+
+   nconst   |      primaryname      
+------------+-----------------------
+ nm5782676  | Pedro Enrique Uz
+ nm1452693  | Pedro Asbeg
+ nm14030250 | Pedro Ramalho Marques
+ nm8298088  | Pedro Buson
+ nm6964598  | Pedro Nicanor
+ nm8305615  | Pedro Moncada
+ nm3661195  | Arbi Pedrossian
+ nm1652571  | Pedro De Larrechea
+ nm0530315  | Pedro Juan López
+ nm5466938  | Pedro Martins
+(10 rows)
+
+   nconst   |  primaryname   | frequency 
+------------+----------------+-----------
+ nm0076166  | Carlo Bernard  |        31
+ nm0104333  | Chris Brancato |        31
+ nm1215164  | Doug Miro      |        31
+ nm1411468  | Carla Hool     |        30
+ nm1338517  | Pedro Bromfman |        30
+ nm2933542  | Boyd Holbrook  |        21
+ nm0609944  | Wagner Moura   |        21
+ nm0455336  | Tim King       |        20
+ nm2975962  | Alberto Ammann |        19
+ nm0017343  | Damián Alcázar |        18
+(10 rows)
+
+   nconst   |   primaryname    | rating 
+------------+------------------+--------
+ nm0580565  | Burgess Meredith |    9.0
+ nm0035675  | David Armstrong  |    9.0
+ nm0877244  | James Turley     |    9.0
+ nm0001430  | Jack Klugman     |    8.9
+ nm0026930  | John Anderson    |    8.9
+ nm0641729  | J. Pat O'Malley  |    8.9
+ nm0566389  | Robert McCord    |    8.9
+ nm0853299  | Vaughn Taylor    |    8.9
+ nm1031805  | Jay Overholts    |    8.8
+ nm0785245  | Rod Serling      |    7.9
+(10 rows)
+
+   tconst   | genres_count 
+------------+--------------
+ tt12061908 |            3
+ tt5307870  |            3
+ tt7797658  |            3
+ tt0734795  |            3
+ tt0734608  |            3
+ tt28778135 |            3
+ tt0734592  |            3
+ tt0734717  |            3
+ tt0734543  |            3
+ tt0734632  |            3
+(10 rows)
+
+   word   | frequency 
+----------+-----------
+ chris    |        41
+ javier   |        41
+ pablo    |        39
+ pascal   |        38
+ pedro    |        38
+ bernard  |        31
+ brancato |        31
+ carlo    |        31
+ doug     |        31
+ miro     |        31
+(10 rows)
+
+   tconst   | primarytitle  
+------------+---------------
+ tt0418455  | Adam's Apples
+(1 row)
+
+   tconst   |                           primarytitle                           | rank 
+------------+------------------------------------------------------------------+------
+ tt0418455  | Adam's Apples                                                    |    3
+ tt29101557 | Amber Heard is The Joker, Masterson Accuser Threatens Journalist |    2
+ tt0381061  | Casino Royale                                                    |    2
+ tt15484726 | Death Stranding Director's Cut                                   |    2
+ tt2106476  | The Hunt                                                         |    2
+ tt23172090 | Dust Bunny                                                       |    2
+ tt10288566 | Another Round                                                    |    2
+ tt0457655  | After the Wedding                                                |    2
+ tt20561198 | The Promised Land                                                |    2
+ tt3204080  | Hannibal Reborn                                                  |    2
+(10 rows)
+
+    word    | rank 
+------------+------
+ michael    |   70
+ strawberry |   61
+ shortcake  |   54
+ self       |   49
+ episode    |   45
+ matt       |   41
+ son        |   41
+ kris       |   35
+ gun        |   35
+ sani       |   35
+(10 rows)
+
