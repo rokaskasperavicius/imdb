@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMDB-API", "IMDB-API\IMDB-API.csproj", "{5D5A7284-7C00-405F-AD43-B6914F318DA6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5D5A7284-7C00-405F-AD43-B6914F318DA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D5A7284-7C00-405F-AD43-B6914F318DA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D5A7284-7C00-405F-AD43-B6914F318DA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D5A7284-7C00-405F-AD43-B6914F318DA6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
