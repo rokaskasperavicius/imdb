@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace IMDB_API.Entities;
+namespace IMDB_API.Models;
 
 public partial class Profession
 {

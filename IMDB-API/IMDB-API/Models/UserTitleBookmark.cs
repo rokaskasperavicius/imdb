@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace IMDB_API.Entities;
+namespace IMDB_API.Models;
 
-public partial class UserTitleRating
+public partial class UserTitleBookmark
 {
     public int UserId { get; set; }
 
     public string BasicTconst { get; set; } = null!;
-
-    public int? Rating { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 
