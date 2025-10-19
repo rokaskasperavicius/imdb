@@ -27,7 +27,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Context\"/>
+        <Folder Include="Contracts\"/>
+        <Folder Include="Domain\"/>
     </ItemGroup>
 
 </Project>

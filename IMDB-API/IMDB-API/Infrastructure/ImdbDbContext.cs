@@ -1,7 +1,7 @@
 ﻿using IMDB_API.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace IMDB_API.Context;
+namespace IMDB_API.Infrastructure;
 
 public partial class ImdbDbContext : DbContext
 {
@@ -44,7 +44,8 @@ public partial class ImdbDbContext : DbContext
     {
         modelBuilder.Entity<Aka>(entity =>
         {
-            entity.HasKey(e => new { e.Tconst, e.Ordering }).HasName("akas_pkey");
+            entity.HasKey(e => new { e.Tconst, e.Ordering })
+                .HasName("akas_pkey");
 
             entity.ToTable("akas");
 
@@ -56,7 +57,8 @@ public partial class ImdbDbContext : DbContext
             entity.Property(e => e.Attributes)
                 .HasMaxLength(256)
                 .HasColumnName("attributes");
-            entity.Property(e => e.Isoriginaltitle).HasColumnName("isoriginaltitle");
+            entity.Property(e => e.Isoriginaltitle)
+                .HasColumnName("isoriginaltitle");
             entity.Property(e => e.Language)
                 .HasMaxLength(10)
                 .HasColumnName("language");
@@ -90,13 +92,15 @@ public partial class ImdbDbContext : DbContext
                 .IsFixedLength()
                 .HasColumnName("endyear");
             entity.Property(e => e.Isadult).HasColumnName("isadult");
-            entity.Property(e => e.Originaltitle).HasColumnName("originaltitle");
+            entity.Property(e => e.Originaltitle)
+                .HasColumnName("originaltitle");
             entity.Property(e => e.Plot).HasColumnName("plot");
             entity.Property(e => e.Poster)
                 .HasMaxLength(180)
                 .HasColumnName("poster");
             entity.Property(e => e.Primarytitle).HasColumnName("primarytitle");
-            entity.Property(e => e.Runtimeminutes).HasColumnName("runtimeminutes");
+            entity.Property(e => e.Runtimeminutes)
+                .HasColumnName("runtimeminutes");
             entity.Property(e => e.Startyear)
                 .HasMaxLength(4)
                 .IsFixedLength()
@@ -116,7 +120,8 @@ public partial class ImdbDbContext : DbContext
                         .HasConstraintName("basics_genres_tconst_fkey"),
                     j =>
                     {
-                        j.HasKey("Tconst", "Genre").HasName("basics_genres_pkey");
+                        j.HasKey("Tconst", "Genre")
+                            .HasName("basics_genres_pkey");
                         j.ToTable("basics_genres");
                         j.IndexerProperty<string>("Tconst")
                             .HasMaxLength(10)
@@ -138,7 +143,8 @@ public partial class ImdbDbContext : DbContext
                         .HasConstraintName("basics_directors_tconst_fkey"),
                     j =>
                     {
-                        j.HasKey("Tconst", "Nconst").HasName("basics_directors_pkey");
+                        j.HasKey("Tconst", "Nconst")
+                            .HasName("basics_directors_pkey");
                         j.ToTable("basics_directors");
                         j.IndexerProperty<string>("Tconst")
                             .HasMaxLength(10)
@@ -150,7 +156,8 @@ public partial class ImdbDbContext : DbContext
                             .HasColumnName("nconst");
                     });
 
-            entity.HasMany(d => d.NconstsNavigation).WithMany(p => p.TconstsNavigation)
+            entity.HasMany(d => d.NconstsNavigation)
+                .WithMany(p => p.TconstsNavigation)
                 .UsingEntity<Dictionary<string, object>>(
                     "BasicsWriter",
                     r => r.HasOne<Name>().WithMany()
@@ -161,7 +168,8 @@ public partial class ImdbDbContext : DbContext
                         .HasConstraintName("basics_writers_tconst_fkey"),
                     j =>
                     {
-                        j.HasKey("Tconst", "Nconst").HasName("basics_writers_pkey");
+                        j.HasKey("Tconst", "Nconst")
+                            .HasName("basics_writers_pkey");
                         j.ToTable("basics_writers");
                         j.IndexerProperty<string>("Tconst")
                             .HasMaxLength(10)
@@ -184,19 +192,22 @@ public partial class ImdbDbContext : DbContext
                 .HasMaxLength(10)
                 .IsFixedLength()
                 .HasColumnName("tconst");
-            entity.Property(e => e.Episodenumber).HasColumnName("episodenumber");
+            entity.Property(e => e.Episodenumber)
+                .HasColumnName("episodenumber");
             entity.Property(e => e.Parenttconst)
                 .HasMaxLength(10)
                 .IsFixedLength()
                 .HasColumnName("parenttconst");
             entity.Property(e => e.Seasonnumber).HasColumnName("seasonnumber");
 
-            entity.HasOne(d => d.ParenttconstNavigation).WithMany(p => p.EpisodeParenttconstNavigations)
+            entity.HasOne(d => d.ParenttconstNavigation)
+                .WithMany(p => p.EpisodeParenttconstNavigations)
                 .HasForeignKey(d => d.Parenttconst)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("episodes_parenttconst_fkey");
 
-            entity.HasOne(d => d.TconstNavigation).WithOne(p => p.EpisodeTconstNavigation)
+            entity.HasOne(d => d.TconstNavigation)
+                .WithOne(p => p.EpisodeTconstNavigation)
                 .HasForeignKey<Episode>(d => d.Tconst)
                 .HasConstraintName("episodes_tconst_fkey");
         });
@@ -250,7 +261,8 @@ public partial class ImdbDbContext : DbContext
                         .HasConstraintName("name_professions_nconst_fkey"),
                     j =>
                     {
-                        j.HasKey("Nconst", "Profession").HasName("name_professions_pkey");
+                        j.HasKey("Nconst", "Profession")
+                            .HasName("name_professions_pkey");
                         j.ToTable("name_professions");
                         j.IndexerProperty<string>("Nconst")
                             .HasMaxLength(10)
@@ -272,7 +284,8 @@ public partial class ImdbDbContext : DbContext
                         .HasConstraintName("name_known_for_titles_nconst_fkey"),
                     j =>
                     {
-                        j.HasKey("Nconst", "Tconst").HasName("name_known_for_titles_pkey");
+                        j.HasKey("Nconst", "Tconst")
+                            .HasName("name_known_for_titles_pkey");
                         j.ToTable("name_known_for_titles");
                         j.IndexerProperty<string>("Nconst")
                             .HasMaxLength(10)
@@ -287,7 +300,8 @@ public partial class ImdbDbContext : DbContext
 
         modelBuilder.Entity<Principal>(entity =>
         {
-            entity.HasKey(e => new { e.Tconst, e.Ordering }).HasName("principals_pkey");
+            entity.HasKey(e => new { e.Tconst, e.Ordering })
+                .HasName("principals_pkey");
 
             entity.ToTable("principals");
 
@@ -393,7 +407,8 @@ public partial class ImdbDbContext : DbContext
 
         modelBuilder.Entity<UserTitleBookmark>(entity =>
         {
-            entity.HasKey(e => new { e.UserId, e.BasicTconst }).HasName("user_title_bookmarks_pkey");
+            entity.HasKey(e => new { e.UserId, e.BasicTconst })
+                .HasName("user_title_bookmarks_pkey");
 
             entity.ToTable("user_title_bookmarks");
 
@@ -407,7 +422,8 @@ public partial class ImdbDbContext : DbContext
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("created_at");
 
-            entity.HasOne(d => d.BasicTconstNavigation).WithMany(p => p.UserTitleBookmarks)
+            entity.HasOne(d => d.BasicTconstNavigation)
+                .WithMany(p => p.UserTitleBookmarks)
                 .HasForeignKey(d => d.BasicTconst)
                 .HasConstraintName("user_title_bookmarks_basic_tconst_fkey");
 
@@ -418,7 +434,8 @@ public partial class ImdbDbContext : DbContext
 
         modelBuilder.Entity<UserTitleRating>(entity =>
         {
-            entity.HasKey(e => new { e.UserId, e.BasicTconst }).HasName("user_title_ratings_pkey");
+            entity.HasKey(e => new { e.UserId, e.BasicTconst })
+                .HasName("user_title_ratings_pkey");
 
             entity.ToTable("user_title_ratings");
 
@@ -433,7 +450,8 @@ public partial class ImdbDbContext : DbContext
                 .HasColumnName("created_at");
             entity.Property(e => e.Rating).HasColumnName("rating");
 
-            entity.HasOne(d => d.BasicTconstNavigation).WithMany(p => p.UserTitleRatings)
+            entity.HasOne(d => d.BasicTconstNavigation)
+                .WithMany(p => p.UserTitleRatings)
                 .HasForeignKey(d => d.BasicTconst)
                 .HasConstraintName("user_title_ratings_basic_tconst_fkey");
 
@@ -444,7 +462,8 @@ public partial class ImdbDbContext : DbContext
 
         modelBuilder.Entity<WordIndex>(entity =>
         {
-            entity.HasKey(e => new { e.Tconst, e.Word, e.Field }).HasName("word_indices_pkey");
+            entity.HasKey(e => new { e.Tconst, e.Word, e.Field })
+                .HasName("word_indices_pkey");
 
             entity.ToTable("word_indices");
 

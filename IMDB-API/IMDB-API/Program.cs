@@ -1,13 +1,10 @@
-using System.ComponentModel.DataAnnotations;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Text;
-using IMDB_API.Context;
-using IMDB_API.DTOs;
-using IMDB_API.Repositories;
+using IMDB_API.Application.Interfaces;
+using IMDB_API.Application.Services;
+using IMDB_API.Infrastructure;
+using IMDB_API.Infrastructure.Repositories;
+using IMDB_API.Web;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -37,7 +34,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentUser, CurrentUser>();
+
+// Repositories
 builder.Services.AddScoped<IActorsRepository, ActorsRepository>();
+builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+builder.Services.AddScoped<IBookmarksRepository, BookmarkRepository>();
+
+// Services
+builder.Services.AddScoped<IActorsService, ActorsService>();
+builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddScoped<IBookmarksService, BookmarksService>();
 
 var app = builder.Build();
 
@@ -55,93 +61,16 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapControllers();
-app.MapGet("/api/movies",
-    async (ImdbDbContext db) =>
-    {
-        return await db.Basics.Take(50).ToListAsync();
-    });
 
-app.MapPost("/api/bookmarks/{tconst}",
-    [Authorize](HttpRequest request, ICurrentUser me, ImdbDbContext db) =>
-    {
-        var tconst = request.RouteValues["tconst"];
-
-        db.Database.ExecuteSql($"CALL p_bookmark_title({me.Id}, {tconst})");
-
-        return Results.Created($"/bookmarks/{tconst}", new { tconst });
-    });
-
-app.MapDelete("/api/bookmarks/{tconst}",
-    [Authorize](HttpRequest request, ICurrentUser me, ImdbDbContext db) =>
-    {
-        var tconst = request.RouteValues["tconst"];
-
-        db.Database.ExecuteSql(
-            $"CALL p_remove_bookmark_title({me.Id}, {tconst})");
-
-        return Results.NoContent();
-    });
-
-app.MapPost("/api/users/register", (RegisterUser user, ImdbDbContext db) =>
-{
-    if (user.Email == null || user.Name == null || user.Password == null)
-        return Results.BadRequest();
-
-    var isEmailValid = new EmailAddressAttribute().IsValid(user.Email);
-
-    if (!isEmailValid) return Results.BadRequest();
-
-    var hasher = new PasswordHasher<RegisterUser>();
-    var hash = hasher.HashPassword(user, user.Password);
-
-    try
-    {
-        db.Database.ExecuteSql(
-            $"CALL p_create_user({user.Name}, {user.Email}, {hash})");
-    }
-    catch
-    {
-        return Results.Conflict();
-    }
-
-    // Email is unique
-    var createdUser = db.Users.Single(u => u.Email == user.Email);
-
-    return Results.Created($"users/{createdUser.Id}",
-        new { createdUser.Id, createdUser.Email, createdUser.Name });
-});
-
-app.MapPost("/api/users/login", (LoginUser user, ImdbDbContext db) =>
-{
-    var dbUser = db.Users.SingleOrDefault(u => u.Email == user.Email);
-
-    if (dbUser == null) return Results.Unauthorized();
-
-    var hasher = new PasswordHasher<LoginUser>();
-    var result =
-        hasher.VerifyHashedPassword(user, dbUser.PasswordHash, user.Password);
-
-    if (result == PasswordVerificationResult.Failed)
-        return Results.Unauthorized();
-
-    var claims = new List<Claim>
-    {
-        new(ClaimTypes.NameIdentifier, dbUser.Id.ToString())
-    };
-
-    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes($"{jwt}"));
-    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-    var token = new JwtSecurityToken(
-        "imdb",
-        "imdb",
-        claims,
-        expires: DateTime.UtcNow.AddMinutes(30),
-        signingCredentials: creds);
-
-    var access = new JwtSecurityTokenHandler().WriteToken(token);
-
-    return Results.Ok(new { AccessToken = access });
-});
+// app.MapDelete("/api/bookmarks/{tconst}",
+//     [Authorize](HttpRequest request, ICurrentUser me, ImdbDbContext db) =>
+//     {
+//         var tconst = request.RouteValues["tconst"];
+//
+//         db.Database.ExecuteSql(
+//             $"CALL p_remove_bookmark_title({me.Id}, {tconst})");
+//
+//         return Results.NoContent();
+//     });
 
 app.Run();

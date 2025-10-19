@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-namespace IMDB_API.DTOs;
+namespace IMDB_API.Web;
 
 public interface ICurrentUser
 {
@@ -9,18 +9,16 @@ public interface ICurrentUser
 
 public class CurrentUser : ICurrentUser
 {
-    public int Id { get; }
-
     public CurrentUser(IHttpContextAccessor accessor)
     {
         var user = accessor.HttpContext?.User;
         var stringId = user?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
         if (!int.TryParse(stringId, out var id))
-        {
             throw new UnauthorizedAccessException("Unauthorized");
-        }
-        
+
         Id = id;
     }
+
+    public int Id { get; }
 }
