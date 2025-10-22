@@ -6,6 +6,6 @@ public interface IPeopleRepository
 {
     Task<int> GetCount();
 
-    IQueryable<Person> GetActors();
+    Task<List<Person>> GetActors(int skip, int take);
     Task<Person?> GetActor(string nconst);
 }

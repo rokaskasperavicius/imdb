@@ -35,15 +35,23 @@ public class PeopleRepository : IPeopleRepository
         };
     }
 
-    public IQueryable<Person> GetActors()
+    public async Task<List<Person>> GetActors(int skip, int take)
     {
-        return _imdbDbContext.Names.Select(n => new Person
-        {
-            Id = n.Nconst,
-            Name = n.Primaryname,
-            BirthYear = n.Birthyear,
-            DeathYear = n.Deathyear,
-            Rating = n.Rating
-        }).AsNoTracking();
+        var actors = await _imdbDbContext.Names
+            .AsNoTracking()
+            .OrderBy(n => n.Primaryname)
+            .Skip(skip)
+            .Take(take)
+            .Select(n =>
+                new Person
+                {
+                    Id = n.Nconst,
+                    Name = n.Primaryname,
+                    BirthYear = n.Birthyear,
+                    DeathYear = n.Deathyear,
+                    Rating = n.Rating
+                }).ToListAsync();
+
+        return actors;
     }
 }

@@ -6,5 +6,5 @@ public interface IBookmarksRepository
 {
     void CreateBookmark(int userId, string tconst);
     void DeleteBookmark(int userId, string tconst);
-    IQueryable<Bookmark> GetBookmarks(int userId);
+    Task<List<Bookmark>> GetBookmarks(int userId);
 }

@@ -1,7 +1,6 @@
 using IMDB_API.Application.Common;
 using IMDB_API.Application.DTOs;
 using IMDB_API.Application.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace IMDB_API.Application.Services;
 
@@ -18,26 +17,25 @@ public class PeopleService : IPeopleService
         int page,
         int pageSize)
     {
+        var skip = (page - 1) * pageSize;
+
         var actorsCount = await _peopleRepository.GetCount();
         var actors = await _peopleRepository
-            .GetActors()
-            .OrderBy(n => n.Name)
-            .Skip(pageSize * (page - 1))
-            .Take(pageSize)
-            .Select(n =>
-                new PersonDTO
-                {
-                    Id = n.Id.Trim(),
-                    PrimaryName = n.Name,
-                    BirthYear = n.BirthYear,
-                    DeathYear = n.DeathYear,
-                    Rating = n.Rating
-                })
-            .ToListAsync();
+            .GetActors(skip, pageSize);
+
+        var mapped = actors.Select(n =>
+            new PersonDTO
+            {
+                Id = n.Id.Trim(),
+                PrimaryName = n.Name,
+                BirthYear = n.BirthYear,
+                DeathYear = n.DeathYear,
+                Rating = n.Rating
+            }).ToList();
 
         return new PagedResults<List<PersonDTO>>
         {
-            Data = actors,
+            Data = mapped,
             Page = page,
             PageSize = pageSize,
             TotalCount = actorsCount

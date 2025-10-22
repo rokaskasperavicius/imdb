@@ -25,13 +25,16 @@ public class BookmarkRepository : IBookmarksRepository
             $"CALL p_remove_bookmark_title({userId}, {tconst})");
     }
 
-    public IQueryable<Bookmark> GetBookmarks(int userId)
+    public async Task<List<Bookmark>> GetBookmarks(int userId)
     {
-        return _imdbDbContext.UserTitleBookmarks
+        var bookmarks = await _imdbDbContext.UserTitleBookmarks
+            .AsNoTracking()
             .Where(b => b.UserId == userId)
             .Select(utb => new Bookmark
             {
                 Id = utb.BasicTconst
-            }).AsNoTracking();
+            }).ToListAsync();
+
+        return bookmarks;
     }
 }
