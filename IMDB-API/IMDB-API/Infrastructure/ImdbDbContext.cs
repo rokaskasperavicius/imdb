@@ -1,4 +1,4 @@
-﻿using IMDB_API.Models;
+﻿using IMDB_API.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMDB_API.Infrastructure;

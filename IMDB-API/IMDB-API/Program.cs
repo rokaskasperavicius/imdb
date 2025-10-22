@@ -36,14 +36,19 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 
 // Repositories
-builder.Services.AddScoped<IActorsRepository, ActorsRepository>();
+builder.Services.AddScoped<IPeopleRepository, PeopleRepository>();
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<IBookmarksRepository, BookmarkRepository>();
 
 // Services
-builder.Services.AddScoped<IActorsService, ActorsService>();
+builder.Services.AddScoped<IPeopleService, PeopleService>();
 builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<IBookmarksService, BookmarksService>();
+
+// Common
+builder.Services.AddScoped<IUserTokenService, UserTokenService>();
+builder.Services.AddScoped<IPasswordHasher, AspPasswordHasher>();
+
 
 var app = builder.Build();
 

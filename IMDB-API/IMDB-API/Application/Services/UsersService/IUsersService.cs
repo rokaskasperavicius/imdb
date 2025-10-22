@@ -1,4 +1,4 @@
-using IMDB_API.Contracts.DTOs;
+using IMDB_API.Application.DTOs;
 
 namespace IMDB_API.Application.Services;
 

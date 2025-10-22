@@ -1,5 +1,5 @@
 using IMDB_API.Application.Interfaces;
-using IMDB_API.Models;
+using IMDB_API.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMDB_API.Infrastructure.Repositories;
@@ -21,11 +21,21 @@ public class UsersRepository : IUsersRepository
         var createdUser =
             _imdbDbContext.Users.Single(u => u.Email == user.Email);
 
-        return createdUser;
+        user.Id = createdUser.Id;
+
+        return user;
     }
 
     public User GetUserByEmail(string email)
     {
-        return _imdbDbContext.Users.Single(u => u.Email == email);
+        var user = _imdbDbContext.Users.Single(u => u.Email == email);
+
+        return new User
+        {
+            Id = user.Id,
+            Email = user.Email,
+            Name = user.Name,
+            PasswordHash = user.PasswordHash
+        };
     }
 }

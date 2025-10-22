@@ -1,40 +1,38 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+using IMDB_API.Application.DTOs;
 using IMDB_API.Application.Interfaces;
-using IMDB_API.Contracts.DTOs;
-using IMDB_API.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
+using IMDB_API.Domain;
 
 namespace IMDB_API.Application.Services;
 
 public class UsersService : IUsersService
 {
-    private readonly IConfiguration _configuration;
+    private readonly IPasswordHasher _passwordHasher;
     private readonly IUsersRepository _usersRepository;
+    private readonly IUserTokenService _userTokenService;
 
     public UsersService(
         IUsersRepository usersRepository,
-        IConfiguration configuration)
+        IPasswordHasher passwordHasher,
+        IUserTokenService userTokenService)
     {
         _usersRepository = usersRepository;
-        _configuration = configuration;
+        _passwordHasher = passwordHasher;
+        _userTokenService = userTokenService;
     }
 
     public UserDTO RegisterUser(string name, string email, string password)
     {
         try
         {
-            var passwordHasher = new PasswordHasher<string>();
-            var hash = passwordHasher.HashPassword(email, password);
-
             var user = new User
             {
                 Name = name,
-                Email = email,
-                PasswordHash = hash
+                Email = email
             };
+
+            var hash = _passwordHasher.HashPassword(user, password);
+
+            user.PasswordHash = hash;
 
             var createdUser = _usersRepository.CreateUser(user);
 
@@ -57,17 +55,9 @@ public class UsersService : IUsersService
         {
             var user = _usersRepository.GetUserByEmail(email);
 
-            var passwordHasher = new PasswordHasher<string>();
-            var hashResult = passwordHasher.VerifyHashedPassword(
-                email,
-                user.PasswordHash,
-                password);
+            _passwordHasher.VerifyHashedPassword(user, password);
 
-            // Check hash
-            if (hashResult == PasswordVerificationResult.Failed)
-                throw new UnauthorizedAccessException();
-
-            var token = CreateToken(user);
+            var token = _userTokenService.CreateToken(user);
 
             return new UserWithTokenDTO
             {
@@ -82,31 +72,5 @@ public class UsersService : IUsersService
             throw new UnauthorizedAccessException(
                 "Wrong email or password", ex);
         }
-    }
-
-    private string CreateToken(User user)
-    {
-        // Create token claims
-        var claims = new List<Claim>
-        {
-            new(ClaimTypes.NameIdentifier, user.Id.ToString())
-        };
-
-        var secretKey = _configuration["JwtSecretKey"];
-
-        var key =
-            new SymmetricSecurityKey(Encoding.UTF8.GetBytes($"{secretKey}"));
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-        var token = new JwtSecurityToken(
-            "imdb",
-            "imdb",
-            claims,
-            expires: DateTime.UtcNow.AddMinutes(30),
-            signingCredentials: creds);
-
-        var access = new JwtSecurityTokenHandler().WriteToken(token);
-
-        return access;
     }
 }

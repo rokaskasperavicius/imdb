@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using IMDB_API.Application.DTOs;
 using IMDB_API.Application.Services;
-using IMDB_API.Contracts.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMDB_API.Web.Controllers;

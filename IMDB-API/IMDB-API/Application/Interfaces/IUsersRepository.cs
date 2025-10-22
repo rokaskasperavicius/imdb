@@ -1,4 +1,4 @@
-using IMDB_API.Models;
+using IMDB_API.Domain;
 
 namespace IMDB_API.Application.Interfaces;
 
