@@ -16,29 +16,16 @@ public class SearchController : ControllerBase
     {
         _searchService = searchService;
     }
-    
+
     // GET: api/search
     [HttpGet]
     [Authorize]
-    public async Task<ActionResult<MovieDto>> GetSearches(
-        ICurrentUser currentUser,
-        [FromBody] SearchBody search)
-    {
-        var result =
-            await _searchService.GetSearchResults(currentUser.Id, search.Query);
-
-        return Ok(result);
-    }
-
-    // POST: api/search
-    [HttpPost]
-    [Authorize]
     public async Task<ActionResult<SearchDto>> Search(
         ICurrentUser currentUser,
-        [FromBody] SearchBody search)
+        [FromQuery] string query)
     {
         var result =
-            await _searchService.GetSearchResults(currentUser.Id, search.Query);
+            await _searchService.GetSearchResults(currentUser.Id, query);
 
         return Ok(result);
     }
