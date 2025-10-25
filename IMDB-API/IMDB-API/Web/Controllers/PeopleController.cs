@@ -19,7 +19,7 @@ public class PeopleController : ControllerBase
 
     // GET: api/people
     [HttpGet]
-    public async Task<ActionResult<PagedResults<PersonDto>>> GetPeople(
+    public async Task<ActionResult<PagedResults<List<PersonDto>>>> GetPeople(
         PagedQuery query)
     {
         var result = await _peopleService.GetPeople(query.Page, query.PageSize);

@@ -50,6 +50,7 @@ builder.Services.AddScoped<IBookmarksService, BookmarksService>();
 builder.Services.AddScoped<IMoviesService, MoviesService>();
 builder.Services.AddScoped<IRatingsService, RatingsService>();
 builder.Services.AddScoped<ICastService, CastService>();
+builder.Services.AddScoped<ISearchService, SearchService>();
 
 // Common
 builder.Services.AddScoped<IUserTokenService, UserTokenService>();

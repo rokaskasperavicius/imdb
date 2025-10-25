@@ -99,12 +99,23 @@ public class MoviesRepository : IMoviesRepository
 
     public async Task<List<Movie>> GetMoviesBySearch(int userId, string search)
     {
-        //PARAMETERS
+        var user = new NpgsqlParameter("user", userId);
+        var query = new NpgsqlParameter("query", search);
+
         var rows = await _imdbDbContext.Database
             .SqlQueryRaw<NameSearchRow>(
-                "select * from f_string_search({0}, {1})", userId, search)
+                "select * from f_string_search({0}, {1}, 'movie')", user, query)
+            .ToListAsync();
+        
+        var ids = rows.Select(r => r.Tconst).Distinct().ToList();
+        
+        var movies = await _imdbDbContext.Basics
+            .AsNoTracking()
+            .Where(b => b.Titletype == "movie")
+            .Where(b => ids.Contains(b.Tconst))
+            .Select(MovieProjection)
             .ToListAsync();
 
-        return new List<Movie>();
+        return movies;
     }
 }

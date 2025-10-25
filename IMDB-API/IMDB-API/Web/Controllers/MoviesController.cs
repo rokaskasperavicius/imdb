@@ -30,7 +30,7 @@ public class MoviesController : ControllerBase
 
     // GET: api/movies
     [HttpGet]
-    public async Task<ActionResult<PagedResults<MovieDto>>> GetMovies(
+    public async Task<ActionResult<PagedResults<List<MovieDto>>>> GetMovies(
         PagedQuery query)
     {
         var result =
@@ -48,14 +48,4 @@ public class MoviesController : ControllerBase
 
         return Ok(movies);
     }
-
-    // // GET: api/movies
-    // [HttpGet]
-    // public async Task<ActionResult<PagedResults<MovieDto>>> GetMoviesSearch([FromQuery] string search)
-    // {
-    //     // var result =
-    //     //     await _moviesService.GetMovies(query.Page, query.PageSize);
-    //
-    //     return Ok();
-    // }
 }

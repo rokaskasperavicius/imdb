@@ -41,14 +41,18 @@ END $$;
 -- 1-D.2
 CREATE OR REPLACE FUNCTION f_string_search(
     p_user_id INT,
-    p_search_query TEXT
+    p_search_query TEXT,
+    -- Updated to include titletype filter
+    p_basic_titletype CHARACTER(20)
 )
 RETURNS TABLE(tconst CHARACTER(10), primarytitle TEXT)
 LANGUAGE plpgsql AS $$
 BEGIN
     CALL p_update_user_search_history(p_user_id, p_search_query);
 
-    RETURN QUERY SELECT b.tconst, b.primarytitle FROM basics b
+    RETURN QUERY SELECT b.tconst, b.primarytitle FROM (
+        SELECT * FROM basics WHERE titletype = p_basic_titletype
+        ) b
         WHERE b.primarytitle ILIKE '%' || p_search_query || '%'
         OR (b.plot IS NOT NULL AND b.plot ILIKE '%' || p_search_query || '%')
         LIMIT 10;
