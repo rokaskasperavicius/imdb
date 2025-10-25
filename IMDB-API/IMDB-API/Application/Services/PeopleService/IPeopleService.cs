@@ -7,4 +7,5 @@ public interface IPeopleService
 {
     Task<PagedResults<List<PersonDto>>> GetPeople(int page, int pageSize);
     Task<PersonDto?> GetPerson(string nconst);
+    Task<List<PersonDto>> GetRelatedPeople(string nconst);
 }

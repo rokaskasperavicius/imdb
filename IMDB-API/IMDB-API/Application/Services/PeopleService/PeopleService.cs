@@ -42,6 +42,13 @@ public class PeopleService : IPeopleService
         return person != null ? PersonToDto(person) : null;
     }
 
+    public async Task<List<PersonDto>> GetRelatedPeople(string nconst)
+    {
+        var people = await _peopleRepository.GetRelatedPeople(nconst);
+
+        return people.Select(PersonToDto).ToList();
+    }
+
     private static PersonDto PersonToDto(Person person)
     {
         return new PersonDto
@@ -51,6 +58,8 @@ public class PeopleService : IPeopleService
             BirthYear = person.BirthYear,
             DeathYear = person.DeathYear,
             Rating = person.Rating,
+            KnownForTitles =
+                person.KnownForTitles.Select(g => g.Id.Trim()).ToList(),
             Professions = person.Professions.Select(g => g.Name).ToList()
         };
     }

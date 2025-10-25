@@ -37,4 +37,14 @@ public class PeopleController : ControllerBase
 
         return Ok(person);
     }
+
+    // GET: api/people/nm0000001/related
+    [HttpGet("{nconst}/related")]
+    public async Task<ActionResult<List<PersonDto>>> GetRelatedPeople(
+        string nconst)
+    {
+        var people = await _peopleService.GetRelatedPeople(nconst);
+
+        return Ok(people);
+    }
 }

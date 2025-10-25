@@ -173,7 +173,9 @@ END $$;
 
 -- 1-D.9
 CREATE OR REPLACE FUNCTION f_similar_movies(
-    p_basic_tconst CHARACTER(10)
+    p_basic_tconst CHARACTER(10),
+    -- Updated to include titletype filter
+    p_basic_titletype CHARACTER(20)
 )
 RETURNS TABLE(tconst CHARACTER(10), genres_count BIGINT)
 LANGUAGE plpgsql AS $$
@@ -182,7 +184,8 @@ BEGIN
         FROM basics_genres bg1
         INNER JOIN basics_genres bg2
         ON bg1.genre = bg2.genre AND bg1.tconst <> bg2.tconst
-        WHERE bg1.tconst = p_basic_tconst
+        INNER JOIN basics b ON bg2.tconst = b.tconst
+        WHERE bg1.tconst = p_basic_tconst AND b.titletype = p_basic_titletype
         GROUP BY bg2.tconst
         ORDER BY genres_count DESC
         LIMIT 10;

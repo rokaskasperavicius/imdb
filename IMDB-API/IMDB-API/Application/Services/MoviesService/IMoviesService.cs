@@ -10,4 +10,6 @@ public interface IMoviesService
     Task<PagedResults<List<MovieDto>>> GetMovies(
         int page,
         int pageSize);
+
+    Task<List<MovieDto>> GetRelatedMovies(string tconst);
 }

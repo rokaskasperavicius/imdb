@@ -1,3 +1,4 @@
+using IMDB_API.Application.DTOs;
 using IMDB_API.Application.Services;
 using IMDB_API.Web.Common;
 using Microsoft.AspNetCore.Authorization;
@@ -29,6 +30,23 @@ public class RatingsController : ControllerBase
             _ratingsService.Rate(currentUser.Id, tconst, rating.Rating);
 
             return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return Conflict(ex.Message);
+        }
+    }
+
+    [HttpGet]
+    [Authorize]
+    public async Task<ActionResult<List<RatingDto>>> GetRatings(
+        ICurrentUser currentUser)
+    {
+        try
+        {
+            var result = await _ratingsService.GetRatings(currentUser.Id);
+
+            return Ok(result);
         }
         catch (Exception ex)
         {

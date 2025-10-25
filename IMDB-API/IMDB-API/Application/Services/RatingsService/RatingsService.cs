@@ -1,3 +1,4 @@
+using IMDB_API.Application.DTOs;
 using IMDB_API.Application.Interfaces;
 using IMDB_API.Domain;
 
@@ -29,5 +30,21 @@ public class RatingsService : IRatingsService
         {
             throw new InvalidOperationException($"Could not rate {tconst}", ex);
         }
+    }
+
+    public async Task<List<RatingDto>> GetRatings(int userId)
+    {
+        var ratings = await _ratingRepository.GetRatings(userId);
+
+        return ratings.Select(RatingToDto).ToList();
+    }
+
+    private static RatingDto RatingToDto(Rating rating)
+    {
+        return new RatingDto
+        {
+            Id = rating.TitleId.Trim(),
+            Rating = rating.TitleRating ?? 0
+        };
     }
 }

@@ -42,6 +42,13 @@ public class MoviesService : IMoviesService
         };
     }
 
+    public async Task<List<MovieDto>> GetRelatedMovies(string tconst)
+    {
+        var movies = await _moviesRepository.GetRelatedMovies(tconst);
+
+        return movies.Select(MovieToDto).ToList();
+    }
+
     private static MovieDto MovieToDto(Movie movie)
     {
         return new MovieDto

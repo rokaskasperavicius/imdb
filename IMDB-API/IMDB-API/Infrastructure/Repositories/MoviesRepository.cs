@@ -3,6 +3,7 @@ using IMDB_API.Application.Interfaces;
 using IMDB_API.Domain;
 using IMDB_API.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace IMDB_API.Infrastructure.Repositories;
 
@@ -68,6 +69,32 @@ public class MoviesRepository : IMoviesRepository
             .ToListAsync();
 
         return movies;
+    }
+
+    public async Task<List<Movie>> GetRelatedMovies(string tconst)
+    {
+        var movie = new NpgsqlParameter("movie", tconst);
+        var rows = await _imdbDbContext.Database
+            .SqlQueryRaw<SimilarMoviesRow>(
+                "select * from f_similar_movies({0}, 'movie')", movie)
+            .ToListAsync();
+
+        // Needed to maintain sorting
+        var freqDic = rows
+            .Select(r => new { r.Tconst, r.GenresCount })
+            .ToDictionary(r => r.Tconst, r => r.GenresCount);
+
+        var movies = await _imdbDbContext.Basics
+            .AsNoTracking()
+            .Where(b => b.Titletype == "movie")
+            .Where(b => freqDic.Keys.Contains(b.Tconst))
+            .Select(MovieProjection)
+            .ToListAsync();
+
+        return movies
+            .OrderByDescending(m => freqDic[m.Id])
+            .ThenBy(m => m.Title)
+            .ToList();
     }
 
     public async Task<List<Movie>> GetMoviesBySearch(int userId, string search)

@@ -41,6 +41,7 @@ builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<IBookmarksRepository, BookmarkRepository>();
 builder.Services.AddScoped<IMoviesRepository, MoviesRepository>();
 builder.Services.AddScoped<IRatingRepository, RatingRepository>();
+builder.Services.AddScoped<ICastRepository, CastRepository>();
 
 // Services
 builder.Services.AddScoped<IPeopleService, PeopleService>();
@@ -48,6 +49,7 @@ builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<IBookmarksService, BookmarksService>();
 builder.Services.AddScoped<IMoviesService, MoviesService>();
 builder.Services.AddScoped<IRatingsService, RatingsService>();
+builder.Services.AddScoped<ICastService, CastService>();
 
 // Common
 builder.Services.AddScoped<IUserTokenService, UserTokenService>();

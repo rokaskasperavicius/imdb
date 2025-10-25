@@ -38,4 +38,24 @@ public class MoviesController : ControllerBase
 
         return Ok(result);
     }
+
+    // GET: api/movies/tt0000001/related
+    [HttpGet("{tconst}/related")]
+    public async Task<ActionResult<List<MovieDto>>> GetRelatedMovies(
+        string tconst)
+    {
+        var movies = await _moviesService.GetRelatedMovies(tconst);
+
+        return Ok(movies);
+    }
+
+    // // GET: api/movies
+    // [HttpGet]
+    // public async Task<ActionResult<PagedResults<MovieDto>>> GetMoviesSearch([FromQuery] string search)
+    // {
+    //     // var result =
+    //     //     await _moviesService.GetMovies(query.Page, query.PageSize);
+    //
+    //     return Ok();
+    // }
 }

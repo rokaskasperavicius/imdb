@@ -3,6 +3,7 @@ using IMDB_API.Application.Interfaces;
 using IMDB_API.Domain;
 using IMDB_API.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace IMDB_API.Infrastructure.Repositories;
 
@@ -16,6 +17,10 @@ public class PeopleRepository : IPeopleRepository
             BirthYear = n.Birthyear,
             DeathYear = n.Deathyear,
             Rating = n.Rating,
+            // NameKnownForTitle
+            KnownForTitles = n.Tconsts1
+                .Select(b => new KnownForTitles { Id = b.Tconst })
+                .ToList(),
             Professions = n.Professions
                 .Select(p => new PersonProfession { Name = p.Name })
                 .ToList()
@@ -55,5 +60,29 @@ public class PeopleRepository : IPeopleRepository
             .ToListAsync();
 
         return people;
+    }
+
+    public async Task<List<Person>> GetRelatedPeople(string nconst)
+    {
+        var person = new NpgsqlParameter("person", nconst);
+        var rows = await _imdbDbContext.Database
+            .SqlQueryRaw<FrequentCoPlayersRow>(
+                "select * from f_frequent_co_players({0})", person)
+            .ToListAsync();
+
+        // Needed to maintain sorting
+        var freqDic = rows
+            .Select(r => new { r.Nconst, r.Frequency })
+            .ToDictionary(r => r.Nconst, r => r.Frequency);
+
+        var people = await _imdbDbContext.Names
+            .Where(n => freqDic.Keys.Contains(n.Nconst))
+            .Select(PersonProjection)
+            .ToListAsync();
+
+        return people
+            .OrderByDescending(p => freqDic[p.Id])
+            .ThenBy(p => p.Name)
+            .ToList();
     }
 }

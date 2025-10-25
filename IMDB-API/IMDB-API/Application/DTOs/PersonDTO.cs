@@ -7,5 +7,6 @@ public class PersonDto
     public string? BirthYear { get; set; }
     public string? DeathYear { get; set; }
     public decimal? Rating { get; set; }
+    public List<string> KnownForTitles { get; set; }
     public List<string> Professions { get; set; }
 }
