@@ -1,28 +1,28 @@
 using IMDB_API.Application.Interfaces;
-using IMDB_API.Domain;
 using Microsoft.AspNetCore.Identity;
 
 namespace IMDB_API.Infrastructure.Repositories;
 
 public class AspPasswordHasher : IPasswordHasher
 {
-    public string HashPassword(User user, string password)
+    public string HashPassword(string email, string password)
     {
-        var passwordHasher = new PasswordHasher<User>();
-        var hash = passwordHasher.HashPassword(user, password);
+        var passwordHasher = new PasswordHasher<string>();
+        var hash = passwordHasher.HashPassword(email, password);
 
         return hash;
     }
 
     public void VerifyHashedPassword(
-        User user,
+        string email,
+        string passwordHash,
         string password)
     {
-        var passwordHasher = new PasswordHasher<User>();
+        var passwordHasher = new PasswordHasher<string>();
 
         var hashResult = passwordHasher.VerifyHashedPassword(
-            user,
-            user.PasswordHash,
+            email,
+            passwordHash,
             password);
 
         // Check hash

@@ -61,7 +61,8 @@ CREATE OR REPLACE PROCEDURE p_rate(
     p_rating INT
 ) LANGUAGE plpgsql AS $$
 DECLARE
-    vote_count NUMERIC(5, 1);
+    -- Updated to cast to correct numeric type
+    vote_count DECIMAL;
 BEGIN
     -- Will prevent the user from rating the same title multiple times
     INSERT INTO user_title_ratings (user_id, basic_tconst, rating)
@@ -71,7 +72,7 @@ BEGIN
 
     UPDATE ratings
     SET numvotes = numvotes + 1,
-        averagerating = (vote_count + p_rating) / (numvotes + 1)
+        averagerating = ROUND((vote_count + p_rating) / (numvotes + 1), 1)::NUMERIC(5,1)
     WHERE tconst = p_basic_tconst;
 END $$;
 

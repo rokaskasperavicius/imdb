@@ -5,6 +5,6 @@ namespace IMDB_API.Application.Services;
 
 public interface IPeopleService
 {
-    Task<PagedResults<List<PersonDTO>>> GetPeople(int page, int pageSize);
-    Task<PersonDTO?> GetPerson(string nconst);
+    Task<PagedResults<List<PersonDto>>> GetPeople(int page, int pageSize);
+    Task<PersonDto?> GetPerson(string nconst);
 }

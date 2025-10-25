@@ -1,5 +1,6 @@
 using IMDB_API.Application.DTOs;
 using IMDB_API.Application.Services;
+using IMDB_API.Web.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +20,7 @@ public class BookmarksController : ControllerBase
     // GET: api/bookmarks
     [HttpGet]
     [Authorize]
-    public async Task<ActionResult<List<BookmarkDTO>>> GetBookmarks(
+    public async Task<ActionResult<List<BookmarkDto>>> GetBookmarks(
         ICurrentUser currentUser)
     {
         var result = await _bookmarksService.GetBookmarks(currentUser.Id);
@@ -30,7 +31,7 @@ public class BookmarksController : ControllerBase
     // POST: api/bookmarks/tt0063929
     [HttpPost("{tconst}")]
     [Authorize]
-    public ActionResult<BookmarkDTO> CreateBookmark(
+    public ActionResult<BookmarkDto> CreateBookmark(
         [FromRoute] string tconst, ICurrentUser currentUser)
     {
         try
@@ -38,7 +39,7 @@ public class BookmarksController : ControllerBase
             _bookmarksService.CreateBookmark(currentUser.Id, tconst);
 
             return Created($"/bookmarks/{tconst}",
-                new BookmarkDTO
+                new BookmarkDto
                 {
                     Id = tconst
                 });

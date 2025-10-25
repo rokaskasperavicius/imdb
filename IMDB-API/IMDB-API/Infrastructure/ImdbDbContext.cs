@@ -42,6 +42,8 @@ public partial class ImdbDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        // modelBuilder.Entity<SearchRow>().HasNoKey();
+
         modelBuilder.Entity<Aka>(entity =>
         {
             entity.HasKey(e => new { e.Tconst, e.Ordering })

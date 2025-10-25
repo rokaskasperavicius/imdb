@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-namespace IMDB_API.Web;
+namespace IMDB_API.Web.Common;
 
 public interface ICurrentUser
 {

@@ -1,5 +1,6 @@
 using IMDB_API.Application.DTOs;
 using IMDB_API.Application.Interfaces;
+using IMDB_API.Domain;
 
 namespace IMDB_API.Application.Services;
 
@@ -16,7 +17,13 @@ public class BookmarksService : IBookmarksService
     {
         try
         {
-            _bookmarksRepository.CreateBookmark(userId, tconst);
+            var bookmark = new Bookmark
+            {
+                UserId = userId,
+                TitleId = tconst
+            };
+
+            _bookmarksRepository.CreateBookmark(bookmark);
         }
         catch (Exception ex)
         {
@@ -26,16 +33,22 @@ public class BookmarksService : IBookmarksService
 
     public void DeleteBookmark(int userId, string tconst)
     {
-        _bookmarksRepository.DeleteBookmark(userId, tconst);
+        var bookmark = new Bookmark
+        {
+            UserId = userId,
+            TitleId = tconst
+        };
+
+        _bookmarksRepository.DeleteBookmark(bookmark);
     }
 
-    public async Task<List<BookmarkDTO>> GetBookmarks(int userId)
+    public async Task<List<BookmarkDto>> GetBookmarks(int userId)
     {
         var bookmarks = await _bookmarksRepository.GetBookmarks(userId);
         var mapped =
-            bookmarks.Select(b => new BookmarkDTO
+            bookmarks.Select(b => new BookmarkDto
             {
-                Id = b.Id.Trim()
+                Id = b.TitleId.Trim()
             }).ToList();
 
         return mapped;

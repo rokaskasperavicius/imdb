@@ -1,6 +1,7 @@
 using IMDB_API.Application.Interfaces;
 using IMDB_API.Domain;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace IMDB_API.Infrastructure.Repositories;
 
@@ -13,18 +14,6 @@ public class BookmarkRepository : IBookmarksRepository
         _imdbDbContext = imdbDbContext;
     }
 
-    public void CreateBookmark(int userId, string tconst)
-    {
-        _imdbDbContext.Database.ExecuteSql(
-            $"CALL p_bookmark_title({userId}, {tconst})");
-    }
-
-    public void DeleteBookmark(int userId, string tconst)
-    {
-        _imdbDbContext.Database.ExecuteSql(
-            $"CALL p_remove_bookmark_title({userId}, {tconst})");
-    }
-
     public async Task<List<Bookmark>> GetBookmarks(int userId)
     {
         var bookmarks = await _imdbDbContext.UserTitleBookmarks
@@ -32,9 +21,33 @@ public class BookmarkRepository : IBookmarksRepository
             .Where(b => b.UserId == userId)
             .Select(utb => new Bookmark
             {
-                Id = utb.BasicTconst
+                UserId = userId
             }).ToListAsync();
 
         return bookmarks;
+    }
+
+    public void CreateBookmark(Bookmark bookmark)
+    {
+        var user = new NpgsqlParameter("user", bookmark.UserId);
+        var title = new NpgsqlParameter("title", bookmark.TitleId);
+
+        _imdbDbContext.Database.ExecuteSqlRaw(
+            "CALL p_bookmark_title({0}, {1})",
+            user,
+            title
+        );
+    }
+
+    public void DeleteBookmark(Bookmark bookmark)
+    {
+        var user = new NpgsqlParameter("user", bookmark.UserId);
+        var title = new NpgsqlParameter("title", bookmark.TitleId);
+
+        _imdbDbContext.Database.ExecuteSqlRaw(
+            "CALL p_remove_bookmark_title({0}, {1})",
+            user,
+            title
+        );
     }
 }

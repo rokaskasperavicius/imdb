@@ -18,7 +18,7 @@ public class PeopleServiceTests
     }
 
     [Fact]
-    public async Task GetActors_Success_ReturnsActorsFromDatabase()
+    public async Task GetPeople_Success_ReturnsPeopleFromDatabase()
     {
         await using (var context = CreateContext())
         {

@@ -1,6 +1,7 @@
 using IMDB_API.Application.Common;
 using IMDB_API.Application.DTOs;
 using IMDB_API.Application.Interfaces;
+using IMDB_API.Domain;
 
 namespace IMDB_API.Application.Services;
 
@@ -13,48 +14,44 @@ public class PeopleService : IPeopleService
         _peopleRepository = peopleRepository;
     }
 
-    public async Task<PagedResults<List<PersonDTO>>> GetPeople(
+    public async Task<PagedResults<List<PersonDto>>> GetPeople(
         int page,
         int pageSize)
     {
         var skip = (page - 1) * pageSize;
 
-        var actorsCount = await _peopleRepository.GetCount();
-        var actors = await _peopleRepository
-            .GetActors(skip, pageSize);
+        var peopleCount = await _peopleRepository.GetCount();
+        var people = await _peopleRepository
+            .GetPeople(skip, pageSize);
 
-        var mapped = actors.Select(n =>
-            new PersonDTO
-            {
-                Id = n.Id.Trim(),
-                PrimaryName = n.Name,
-                BirthYear = n.BirthYear,
-                DeathYear = n.DeathYear,
-                Rating = n.Rating
-            }).ToList();
+        var mapped = people.Select(PersonToDto).ToList();
 
-        return new PagedResults<List<PersonDTO>>
+        return new PagedResults<List<PersonDto>>
         {
             Data = mapped,
             Page = page,
             PageSize = pageSize,
-            TotalCount = actorsCount
+            TotalCount = peopleCount
         };
     }
 
-    public async Task<PersonDTO?> GetPerson(string nconst)
+    public async Task<PersonDto?> GetPerson(string nconst)
     {
-        var actor = await _peopleRepository.GetActor(nconst);
+        var person = await _peopleRepository.GetPerson(nconst);
 
-        if (actor == null) return null;
+        return person != null ? PersonToDto(person) : null;
+    }
 
-        return new PersonDTO
+    private static PersonDto PersonToDto(Person person)
+    {
+        return new PersonDto
         {
-            Id = actor.Id.Trim(),
-            PrimaryName = actor.Name,
-            BirthYear = actor.BirthYear,
-            DeathYear = actor.DeathYear,
-            Rating = actor.Rating
+            Id = person.Id.Trim(),
+            PrimaryName = person.Name,
+            BirthYear = person.BirthYear,
+            DeathYear = person.DeathYear,
+            Rating = person.Rating,
+            Professions = person.Professions.Select(g => g.Name).ToList()
         };
     }
 }

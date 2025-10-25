@@ -7,4 +7,10 @@ public class Person
     public string? BirthYear { get; set; }
     public string? DeathYear { get; set; }
     public decimal? Rating { get; set; }
+    public List<PersonProfession> Professions { get; set; }
+}
+
+public class PersonProfession
+{
+    public string Name { get; set; }
 }

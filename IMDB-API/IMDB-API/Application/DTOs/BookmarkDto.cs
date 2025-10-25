@@ -1,6 +1,6 @@
 namespace IMDB_API.Application.DTOs;
 
-public class BookmarkDTO
+public class BookmarkDto
 {
     public string Id { get; set; }
 }

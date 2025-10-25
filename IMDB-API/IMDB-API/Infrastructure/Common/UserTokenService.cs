@@ -35,7 +35,7 @@ public class UserTokenService : IUserTokenService
             "imdb",
             "imdb",
             claims,
-            expires: DateTime.UtcNow.AddMinutes(30),
+            expires: DateTime.UtcNow.AddHours(2),
             signingCredentials: creds);
 
         var access = new JwtSecurityTokenHandler().WriteToken(token);

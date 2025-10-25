@@ -3,7 +3,7 @@ using IMDB_API.Application.Interfaces;
 using IMDB_API.Application.Services;
 using IMDB_API.Infrastructure;
 using IMDB_API.Infrastructure.Repositories;
-using IMDB_API.Web;
+using IMDB_API.Web.Common;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -39,11 +39,15 @@ builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 builder.Services.AddScoped<IPeopleRepository, PeopleRepository>();
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<IBookmarksRepository, BookmarkRepository>();
+builder.Services.AddScoped<IMoviesRepository, MoviesRepository>();
+builder.Services.AddScoped<IRatingRepository, RatingRepository>();
 
 // Services
 builder.Services.AddScoped<IPeopleService, PeopleService>();
 builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<IBookmarksService, BookmarksService>();
+builder.Services.AddScoped<IMoviesService, MoviesService>();
+builder.Services.AddScoped<IRatingsService, RatingsService>();
 
 // Common
 builder.Services.AddScoped<IUserTokenService, UserTokenService>();
@@ -66,16 +70,5 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapControllers();
-
-// app.MapDelete("/api/bookmarks/{tconst}",
-//     [Authorize](HttpRequest request, ICurrentUser me, ImdbDbContext db) =>
-//     {
-//         var tconst = request.RouteValues["tconst"];
-//
-//         db.Database.ExecuteSql(
-//             $"CALL p_remove_bookmark_title({me.Id}, {tconst})");
-//
-//         return Results.NoContent();
-//     });
 
 app.Run();

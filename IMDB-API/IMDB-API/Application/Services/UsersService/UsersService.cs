@@ -20,23 +20,22 @@ public class UsersService : IUsersService
         _userTokenService = userTokenService;
     }
 
-    public UserDTO RegisterUser(string name, string email, string password)
+    public UserDto RegisterUser(string name, string email, string password)
     {
         try
         {
+            var hash = _passwordHasher.HashPassword(email, password);
+
             var user = new User
             {
                 Name = name,
-                Email = email
+                Email = email,
+                PasswordHash = hash
             };
-
-            var hash = _passwordHasher.HashPassword(user, password);
-
-            user.PasswordHash = hash;
 
             var createdUser = _usersRepository.CreateUser(user);
 
-            return new UserDTO
+            return new UserDto
             {
                 Id = createdUser.Id,
                 Name = createdUser.Name,
@@ -49,17 +48,18 @@ public class UsersService : IUsersService
         }
     }
 
-    public UserWithTokenDTO LoginUser(string email, string password)
+    public UserWithTokenDto LoginUser(string email, string password)
     {
         try
         {
             var user = _usersRepository.GetUserByEmail(email);
 
-            _passwordHasher.VerifyHashedPassword(user, password);
+            _passwordHasher.VerifyHashedPassword(user.Email, user.PasswordHash,
+                password);
 
             var token = _userTokenService.CreateToken(user);
 
-            return new UserWithTokenDTO
+            return new UserWithTokenDto
             {
                 Id = user.Id,
                 Name = user.Name,

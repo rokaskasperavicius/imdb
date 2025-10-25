@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
-namespace IMDB_API.Web;
+namespace IMDB_API.Web.Common;
 
 public class PagedQuery
 {

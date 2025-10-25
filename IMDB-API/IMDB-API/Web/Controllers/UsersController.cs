@@ -34,7 +34,7 @@ public class UsersController : ControllerBase
 
     // POST: api/users/register
     [HttpPost("register")]
-    public ActionResult<UserDTO> RegisterUser(RegisterRequest user)
+    public ActionResult<UserDto> RegisterUser(RegisterRequest user)
     {
         try
         {
@@ -53,7 +53,7 @@ public class UsersController : ControllerBase
 
     // POST: api/users/login
     [HttpPost("login")]
-    public ActionResult<UserWithTokenDTO> LoginUser(LoginRequest user)
+    public ActionResult<UserWithTokenDto> LoginUser(LoginRequest user)
     {
         try
         {

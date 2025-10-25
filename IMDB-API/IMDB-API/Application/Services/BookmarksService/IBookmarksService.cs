@@ -6,5 +6,5 @@ public interface IBookmarksService
 {
     void CreateBookmark(int userId, string tconst);
     void DeleteBookmark(int userId, string tconst);
-    Task<List<BookmarkDTO>> GetBookmarks(int userId);
+    Task<List<BookmarkDto>> GetBookmarks(int userId);
 }

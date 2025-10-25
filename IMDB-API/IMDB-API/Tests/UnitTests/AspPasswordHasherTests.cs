@@ -1,6 +1,7 @@
-using IMDB_API.Domain;
 using IMDB_API.Infrastructure.Repositories;
 using Xunit;
+
+namespace IMDB_API.Tests.UnitTests;
 
 public class AspPasswordHasherTests
 {
@@ -8,9 +9,8 @@ public class AspPasswordHasherTests
     public void HashPassword_Returns_NonEmpty_Hash()
     {
         var hasher = new AspPasswordHasher();
-        var user = new User { Email = "test@test.com" };
 
-        var hash = hasher.HashPassword(user, "password");
+        var hash = hasher.HashPassword("test@test.com", "password");
 
         Assert.False(string.IsNullOrWhiteSpace(hash));
         Assert.NotEqual("password", hash);
@@ -20,22 +20,19 @@ public class AspPasswordHasherTests
     public void VerifyHashedPassword_CorrectPassword_DoesNotThrow()
     {
         var hasher = new AspPasswordHasher();
-        var user = new User { Email = "test@test.com" };
-        var hash = hasher.HashPassword(user, "password");
-        user.PasswordHash = hash;
+        var hash = hasher.HashPassword("test@test.com", "password");
 
-        hasher.VerifyHashedPassword(user, "password");
+        hasher.VerifyHashedPassword("test@test.com", hash, "password");
     }
 
     [Fact]
     public void VerifyHashedPassword_WrongPassword_ThrowsUnauthorized()
     {
         var hasher = new AspPasswordHasher();
-        var user = new User { Email = "test@test.com" };
-        var hash = hasher.HashPassword(user, "password");
-        user.PasswordHash = hash;
+        var hash = hasher.HashPassword("test@test.com", "password");
 
         Assert.Throws<UnauthorizedAccessException>(() =>
-            hasher.VerifyHashedPassword(user, "wrong-password"));
+            hasher.VerifyHashedPassword("test@test.com", hash,
+                "wrong-password"));
     }
 }

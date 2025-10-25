@@ -1,6 +1,7 @@
 using IMDB_API.Application.Common;
 using IMDB_API.Application.DTOs;
 using IMDB_API.Application.Services;
+using IMDB_API.Web.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMDB_API.Web.Controllers;
@@ -16,9 +17,9 @@ public class PeopleController : ControllerBase
         _peopleService = peopleService;
     }
 
-    // GET: api/actors
+    // GET: api/people
     [HttpGet]
-    public async Task<ActionResult<PagedResults<PersonDTO>>> GetActors(
+    public async Task<ActionResult<PagedResults<PersonDto>>> GetPeople(
         PagedQuery query)
     {
         var result = await _peopleService.GetPeople(query.Page, query.PageSize);
@@ -26,14 +27,14 @@ public class PeopleController : ControllerBase
         return Ok(result);
     }
 
-    // GET: api/actors/nm0000001
+    // GET: api/people/nm0000001
     [HttpGet("{nconst}")]
-    public async Task<ActionResult<PersonDTO>> GetActor(string nconst)
+    public async Task<ActionResult<PersonDto>> GetPerson(string nconst)
     {
-        var actor = await _peopleService.GetPerson(nconst);
+        var person = await _peopleService.GetPerson(nconst);
 
-        if (actor == null) return NotFound();
+        if (person == null) return NotFound();
 
-        return Ok(actor);
+        return Ok(person);
     }
 }
