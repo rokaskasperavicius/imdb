@@ -62,6 +62,19 @@ public class PeopleRepository : IPeopleRepository
         return people;
     }
 
+    public async Task<List<Person>> GetPeopleByIds(List<string> ids)
+    {
+        var people = await _imdbDbContext.Names
+            .AsNoTracking()
+            .Where(n => ids.Contains(n.Nconst))
+            .OrderByDescending(p => p.Rating ?? 0)
+            .ThenBy(p => p.Primaryname)
+            .Select(PersonProjection)
+            .ToListAsync();
+
+        return people;
+    }
+
     public async Task<List<Person>> GetRelatedPeople(string nconst)
     {
         var person = new NpgsqlParameter("person", nconst);

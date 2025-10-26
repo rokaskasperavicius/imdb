@@ -12,4 +12,5 @@ public interface IMoviesService
         int pageSize);
 
     Task<List<MovieDto>> GetRelatedMovies(string tconst);
+    Task<List<MovieDto>> GetMoviesBatch(List<string> ids);
 }

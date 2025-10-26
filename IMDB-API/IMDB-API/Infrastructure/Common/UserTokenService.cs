@@ -5,7 +5,7 @@ using IMDB_API.Application.Interfaces;
 using IMDB_API.Domain;
 using Microsoft.IdentityModel.Tokens;
 
-namespace IMDB_API.Infrastructure.Repositories;
+namespace IMDB_API.Infrastructure.Common;
 
 public class UserTokenService : IUserTokenService
 {

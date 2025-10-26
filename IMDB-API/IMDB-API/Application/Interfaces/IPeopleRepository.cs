@@ -9,4 +9,5 @@ public interface IPeopleRepository
     Task<List<Person>> GetPeople(int skip, int take);
     Task<Person?> GetPerson(string nconst);
     Task<List<Person>> GetRelatedPeople(string nconst);
+    Task<List<Person>> GetPeopleByIds(List<string> ids);
 }

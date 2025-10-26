@@ -1,7 +1,7 @@
 using IMDB_API.Application.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
-namespace IMDB_API.Infrastructure.Repositories;
+namespace IMDB_API.Infrastructure.Common;
 
 public class AspPasswordHasher : IPasswordHasher
 {

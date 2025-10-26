@@ -20,9 +20,19 @@ public class PeopleController : ControllerBase
     // GET: api/people
     [HttpGet]
     public async Task<ActionResult<PagedResults<List<PersonDto>>>> GetPeople(
-        PagedQuery query)
+        PagedQuery query, [FromQuery] List<string> ids)
     {
         var result = await _peopleService.GetPeople(query.Page, query.PageSize);
+
+        return Ok(result);
+    }
+
+    // GET: api/people/batch
+    [HttpGet("batch")]
+    public async Task<ActionResult<List<PersonDto>>>
+        GetPeopleBatch([FromQuery] List<string> ids)
+    {
+        var result = await _peopleService.GetPeopleBatch(ids);
 
         return Ok(result);
     }

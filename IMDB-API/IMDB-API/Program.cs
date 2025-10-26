@@ -2,6 +2,7 @@ using System.Text;
 using IMDB_API.Application.Interfaces;
 using IMDB_API.Application.Services;
 using IMDB_API.Infrastructure;
+using IMDB_API.Infrastructure.Common;
 using IMDB_API.Infrastructure.Repositories;
 using IMDB_API.Web.Common;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

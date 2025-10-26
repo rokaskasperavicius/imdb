@@ -49,6 +49,13 @@ public class MoviesService : IMoviesService
         return movies.Select(MovieToDto).ToList();
     }
 
+    public async Task<List<MovieDto>> GetMoviesBatch(List<string> ids)
+    {
+        var movies = await _moviesRepository.GetMoviesByIds(ids);
+
+        return movies.Select(MovieToDto).ToList();
+    }
+
     private static MovieDto MovieToDto(Movie movie)
     {
         return new MovieDto

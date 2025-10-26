@@ -71,6 +71,25 @@ public class MoviesRepository : IMoviesRepository
         return movies;
     }
 
+    public async Task<List<Movie>> GetMoviesByIds(List<string> ids)
+    {
+        var movies = await _imdbDbContext.Basics
+            .AsNoTracking()
+            .Where(b => b.Titletype == "movie")
+            .Where(b => ids.Contains(b.Tconst))
+            .OrderByDescending(b =>
+                b.Rating != null
+                    // Simple formula to include both columns in the calculation
+                    ? b.Rating.Averagerating *
+                      (decimal)Math.Log10(b.Rating.Numvotes + 1)
+                    : 0)
+            .ThenBy(b => b.Primarytitle)
+            .Select(MovieProjection)
+            .ToListAsync();
+
+        return movies;
+    }
+
     public async Task<List<Movie>> GetRelatedMovies(string tconst)
     {
         var movie = new NpgsqlParameter("movie", tconst);
@@ -106,9 +125,9 @@ public class MoviesRepository : IMoviesRepository
             .SqlQueryRaw<NameSearchRow>(
                 "select * from f_string_search({0}, {1}, 'movie')", user, query)
             .ToListAsync();
-        
+
         var ids = rows.Select(r => r.Tconst).Distinct().ToList();
-        
+
         var movies = await _imdbDbContext.Basics
             .AsNoTracking()
             .Where(b => b.Titletype == "movie")

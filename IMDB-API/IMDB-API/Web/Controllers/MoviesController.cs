@@ -39,6 +39,16 @@ public class MoviesController : ControllerBase
         return Ok(result);
     }
 
+    // GET: api/movies/batch
+    [HttpGet("batch")]
+    public async Task<ActionResult<List<MovieDto>>>
+        GetMoviesBatch([FromQuery] List<string> ids)
+    {
+        var result = await _moviesService.GetMoviesBatch(ids);
+
+        return Ok(result);
+    }
+
     // GET: api/movies/tt0000001/related
     [HttpGet("{tconst}/related")]
     public async Task<ActionResult<List<MovieDto>>> GetRelatedMovies(

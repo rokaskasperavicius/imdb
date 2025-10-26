@@ -9,4 +9,5 @@ public interface IMoviesRepository
     Task<List<Movie>> GetMovies(int skip, int take);
     Task<List<Movie>> GetMoviesBySearch(int userId, string search);
     Task<List<Movie>> GetRelatedMovies(string tconst);
+    Task<List<Movie>> GetMoviesByIds(List<string> ids);
 }

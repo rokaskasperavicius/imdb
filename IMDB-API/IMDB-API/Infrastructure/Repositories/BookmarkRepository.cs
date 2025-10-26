@@ -21,7 +21,8 @@ public class BookmarkRepository : IBookmarksRepository
             .Where(b => b.UserId == userId)
             .Select(utb => new Bookmark
             {
-                UserId = userId
+                UserId = userId,
+                TitleId = utb.BasicTconst
             }).ToListAsync();
 
         return bookmarks;

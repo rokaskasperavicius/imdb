@@ -49,6 +49,13 @@ public class PeopleService : IPeopleService
         return people.Select(PersonToDto).ToList();
     }
 
+    public async Task<List<PersonDto>> GetPeopleBatch(List<string> ids)
+    {
+        var people = await _peopleRepository.GetPeopleByIds(ids);
+
+        return people.Select(PersonToDto).ToList();
+    }
+
     private static PersonDto PersonToDto(Person person)
     {
         return new PersonDto

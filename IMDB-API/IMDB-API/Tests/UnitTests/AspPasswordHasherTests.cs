@@ -1,4 +1,4 @@
-using IMDB_API.Infrastructure.Repositories;
+using IMDB_API.Infrastructure.Common;
 using Xunit;
 
 namespace IMDB_API.Tests.UnitTests;
