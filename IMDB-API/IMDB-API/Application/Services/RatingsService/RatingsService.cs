@@ -13,7 +13,7 @@ public class RatingsService : IRatingsService
         _ratingRepository = ratingRepository;
     }
 
-    public void Rate(int userId, string tconst, int rating)
+    public async Task Rate(int userId, string tconst, int rating)
     {
         var userRating = new Rating
         {
@@ -22,13 +22,20 @@ public class RatingsService : IRatingsService
             TitleRating = rating
         };
 
+        var ratings = await _ratingRepository.GetRatings(userId);
+
+        if (ratings.Exists(r => r.TitleId.Trim() == tconst.Trim()))
+            throw new InvalidOperationException(
+                $"Rating on {tconst} already exists.");
+
         try
         {
             _ratingRepository.RateTitle(userRating);
         }
         catch (Exception ex)
         {
-            throw new InvalidOperationException($"Could not rate {tconst}", ex);
+            throw new InvalidOperationException(
+                $"Could not rate {tconst}.", ex);
         }
     }
 

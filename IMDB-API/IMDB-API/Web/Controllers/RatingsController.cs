@@ -20,14 +20,14 @@ public class RatingsController : ControllerBase
     // POST: api/ratings/tt0000001/rate
     [HttpPost("{tconst}/rate")]
     [Authorize]
-    public ActionResult Rate(
+    public async Task<ActionResult> Rate(
         [FromRoute] string tconst,
         [FromBody] RateMovieBody rating,
         ICurrentUser currentUser)
     {
         try
         {
-            _ratingsService.Rate(currentUser.Id, tconst, rating.Rating);
+            await _ratingsService.Rate(currentUser.Id, tconst, rating.Rating);
 
             return NoContent();
         }
