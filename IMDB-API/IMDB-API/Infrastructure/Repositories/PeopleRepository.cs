@@ -17,9 +17,10 @@ public class PeopleRepository : IPeopleRepository
             BirthYear = n.Birthyear,
             DeathYear = n.Deathyear,
             Rating = n.Rating,
-            // NameKnownForTitle
+            // NameKnownForTitle table
             KnownForTitles = n.Tconsts1
-                .Select(b => new KnownForTitles { Id = b.Tconst })
+                .Select(b => new KnownForTitles
+                    { Id = b.Tconst, TitleType = b.Titletype })
                 .ToList(),
             Professions = n.Professions
                 .Select(p => new PersonProfession { Name = p.Name })

@@ -43,6 +43,7 @@ public class MoviesRepository : IMoviesRepository
     public async Task<Movie?> GetMovie(string tconst)
     {
         var movie = await _imdbDbContext.Basics
+            .AsNoTracking()
             .Where(b => b.Titletype == "movie")
             .Where(b => b.Tconst == tconst)
             .Select(MovieProjection)

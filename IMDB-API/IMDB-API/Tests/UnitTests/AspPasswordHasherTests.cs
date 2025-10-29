@@ -13,6 +13,14 @@ public class AspPasswordHasherTests
         var hash = hasher.HashPassword("test@test.com", "password");
 
         Assert.False(string.IsNullOrWhiteSpace(hash));
+    }
+
+    [Fact]
+    public void HashPassword_Returns_NotPassword_Itself()
+    {
+        var hasher = new AspPasswordHasher();
+        var hash = hasher.HashPassword("test@test.com", "password");
+
         Assert.NotEqual("password", hash);
     }
 

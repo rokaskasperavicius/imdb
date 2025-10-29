@@ -14,6 +14,7 @@ public class Person
 public class KnownForTitles
 {
     public string Id { get; set; }
+    public string TitleType { get; set; }
 }
 
 public class PersonProfession

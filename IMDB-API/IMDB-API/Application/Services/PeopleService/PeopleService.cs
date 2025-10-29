@@ -65,8 +65,10 @@ public class PeopleService : IPeopleService
             BirthYear = person.BirthYear,
             DeathYear = person.DeathYear,
             Rating = person.Rating,
-            KnownForTitles =
-                person.KnownForTitles.Select(g => g.Id.Trim()).ToList(),
+            KnownForMovies =
+                person.KnownForTitles
+                    .Where(kft => kft.TitleType == "movie")
+                    .Select(kft => kft.Id.Trim()).ToList(),
             Professions = person.Professions.Select(g => g.Name).ToList()
         };
     }
