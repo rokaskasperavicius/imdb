@@ -133,6 +133,12 @@ public class MoviesRepository : IMoviesRepository
             .AsNoTracking()
             .Where(b => b.Titletype == "movie")
             .Where(b => ids.Contains(b.Tconst))
+            .OrderByDescending(b =>
+                b.Rating != null
+                    // Simple formula to include both columns in the calculation
+                    ? b.Rating.Averagerating *
+                      (decimal)Math.Log10(b.Rating.Numvotes + 1)
+                    : 0)
             .Select(MovieProjection)
             .ToListAsync();
 
