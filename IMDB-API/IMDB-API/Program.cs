@@ -76,3 +76,8 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
+
+// For UI Tests
+public partial class Program
+{
+}
