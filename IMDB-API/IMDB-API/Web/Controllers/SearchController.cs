@@ -24,9 +24,10 @@ public class SearchController : ControllerBase
         ICurrentUser currentUser,
         [FromQuery] string query)
     {
-        var result =
-            await _searchService.GetSearchResults(currentUser.Id, query);
-
-        return Ok(result);
+        // var result =
+        //     await _searchService.GetSearchResults(currentUser.Id, query);
+        //
+        // return Ok(result);
+        return Ok();
     }
 }

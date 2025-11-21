@@ -2,7 +2,7 @@ namespace IMDB_API.Application.DTOs;
 
 public class PersonDto
 {
-    public string Id { get; set; }
+    public required string Id { get; set; }
     public string? PrimaryName { get; set; }
     public string? BirthYear { get; set; }
     public string? DeathYear { get; set; }
