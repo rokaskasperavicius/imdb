@@ -166,7 +166,7 @@ INSERT INTO episodes (SELECT * FROM title_episode);
 CREATE TABLE principals (
   tconst CHARACTER(10),
   ordering INT,
-  nconst CHARACTER(10),
+  nconst CHARACTER(10) NOT NULL,
   category VARCHAR(50) NOT NULL,
   job TEXT,
   characters TEXT,

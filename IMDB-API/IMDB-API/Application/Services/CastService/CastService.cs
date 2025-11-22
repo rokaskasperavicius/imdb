@@ -25,7 +25,8 @@ public class CastService : ICastService
         return new CastDto
         {
             Ordering = cast.Ordering,
-            PersonId = cast.PersonId?.Trim(),
+            PersonId = cast.PersonId.Trim(),
+            PersonName = cast.PersonName,
             Category = cast.Category,
             Character = cast.Character,
             Job = cast.Job

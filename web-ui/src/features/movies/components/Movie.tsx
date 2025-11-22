@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import type { MovieType } from "../types";
 import { Runtime } from "./Runtime";
+import { Image } from "../../../components/Image";
 
 type Props = {
   movie: MovieType;
@@ -9,28 +10,34 @@ type Props = {
 
 export const Movie = ({ movie, titleCount }: Props) => {
   return (
-    <Link to={`/movies/${movie.id}`} className="movie" role="listitem">
-      <img
+    <Link
+      to={`/movies/${movie.id}`}
+      className="hover:bg-neutral-700 flex gap-4"
+      role="listitem"
+    >
+      <Image
         src={movie.poster || "https://placehold.co/300x444"}
         alt={movie.title}
       />
 
-      <div className="movie-content">
+      <div>
         <h4>
           {titleCount}. {movie.title}
         </h4>
 
-        <div className="movie-content-first">
+        <div className="flex gap-4">
           <span>{movie.year}</span>
           <Runtime minutes={movie.runTimeInMinutes} />
           <span>{movie.isAdult ? "18+" : "All ages"}</span>
         </div>
 
-        <p className="movie-plot">{movie.plot}</p>
-        <>Genres: {movie.genres?.join(", ")}</>
+        <div className="space-y-2">
+          <p className="line-clamp-3">{movie.plot}</p>
+          <div>Genres: {movie.genres?.join(", ")}</div>
 
-        <div>
-          {movie.averageRating} ({movie.numberOfVotes})
+          <div>
+            {movie.averageRating} ({movie.numberOfVotes})
+          </div>
         </div>
       </div>
     </Link>

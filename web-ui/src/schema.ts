@@ -540,9 +540,7 @@ export interface paths {
         };
         get: {
             parameters: {
-                query?: {
-                    query?: string;
-                };
+                query?: never;
                 header?: never;
                 path?: never;
                 cookie?: never;
@@ -555,9 +553,9 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "text/plain": components["schemas"]["SearchDto"];
-                        "application/json": components["schemas"]["SearchDto"];
-                        "text/json": components["schemas"]["SearchDto"];
+                        "text/plain": components["schemas"]["SearchDto"][];
+                        "application/json": components["schemas"]["SearchDto"][];
+                        "text/json": components["schemas"]["SearchDto"][];
                     };
                 };
             };
@@ -665,9 +663,10 @@ export interface components {
         };
         CastDto: {
             /** Format: int32 */
-            ordering?: number;
-            personId?: string | null;
-            category?: string;
+            ordering: number;
+            personId: string;
+            personName?: string | null;
+            category: string;
             job?: string | null;
             character?: string | null;
         };
@@ -737,7 +736,9 @@ export interface components {
             password: string;
         };
         SearchDto: {
-            movies?: components["schemas"]["MovieDto"][];
+            query: string;
+            /** Format: date-time */
+            createdAt: string;
         };
         UserDto: {
             /** Format: int32 */

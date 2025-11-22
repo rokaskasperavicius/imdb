@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MOVIE_API_KEY } from "../../../constants";
+import { MOVIE_API_KEY } from "../constants";
 
 // Simple cache so we don't call themoviedb API multiple times for the same person
 const cache = new Map<string, string | null>();

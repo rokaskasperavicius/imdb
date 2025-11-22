@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchPeople } from "../api";
 import type { AllPeopleType } from "../types";
-import { Loader } from "../../../shared/components/Loader";
+import { Loader } from "../../../components/Loader";
 import Pagination from "@mui/material/Pagination";
 import { Person } from "./Person";
 
@@ -23,10 +23,8 @@ export const People = () => {
 
   return (
     <div>
-      <h2>People</h2>
-
-      <div role="list" className="people">
-        <Loader data={people}>
+      <div role="list" className="flex flex-col gap-6">
+        <Loader data={people} type="vertical">
           {(loaded) =>
             loaded.data?.map((person, index) => (
               <Person
@@ -41,7 +39,7 @@ export const People = () => {
 
       {people && (
         <Pagination
-          className="people-pagination"
+          className="justify-center"
           count={people.totalPages}
           page={page}
           onChange={handleChange}

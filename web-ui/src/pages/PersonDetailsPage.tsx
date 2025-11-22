@@ -1,0 +1,19 @@
+import { useParams } from "react-router";
+import { PersonDetails } from "../features/people/components/PersonDetails";
+import { KnownForMovies } from "../features/movies/components/KnownForMovies";
+
+export const PersonDetailsPage = () => {
+  const params = useParams();
+  const personId = params.personId;
+
+  if (!personId) {
+    return null;
+  }
+
+  return (
+    <PersonDetails
+      id={personId}
+      knownForMovies={(movieIds) => <KnownForMovies movieIds={movieIds} />}
+    />
+  );
+};

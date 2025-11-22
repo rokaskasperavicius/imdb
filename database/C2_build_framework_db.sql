@@ -31,8 +31,8 @@ CREATE TABLE user_title_ratings (
 
 CREATE TABLE user_search_history (
     id SERIAL PRIMARY KEY,
-    user_id INT,
+    user_id INT NOT NULL,
     search_query TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );

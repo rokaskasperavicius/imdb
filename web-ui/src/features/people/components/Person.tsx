@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import type { PersonType } from "../types";
-import { usePersonPoster } from "../utils/usePersonPoster";
+import { usePersonPoster } from "../../../shared/usePersonPoster";
+import { Image } from "../../../components/Image";
 
 type Props = {
   person: PersonType;
@@ -11,13 +12,17 @@ export const Person = ({ person, personCount }: Props) => {
   const url = usePersonPoster(person.id);
 
   return (
-    <Link to={`/people/${person.id}`} className="person" role="listitem">
-      <img
-        src={url || "https://placehold.co/300x444"}
+    <Link
+      to={`/people/${person.id}`}
+      className="hover:bg-neutral-700 flex gap-4"
+      role="listitem"
+    >
+      <Image
+        src={url || "https://placehold.co/100x176"}
         alt={person?.primaryName || "Person Poster"}
       />
 
-      <div className="person-content">
+      <div>
         <h4>
           {personCount}. {person.primaryName}
         </h4>

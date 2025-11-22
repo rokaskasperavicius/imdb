@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import type { MovieDetails as MovieDetailsType, RelatedMovies } from "../types";
 import { fetchMovie, fetchRelatedMovies } from "../api";
-import { Loader } from "../../../shared/components/Loader";
+import { Loader } from "../../../components/Loader";
 import { Runtime } from "./Runtime";
 import { Link } from "react-router";
+import { Image } from "../../../components/Image";
 
 type Props = {
   id: string;
+  cast: React.ReactElement;
 };
 
-export const MovieDetails = ({ id }: Props) => {
+export const MovieDetails = ({ id, cast }: Props) => {
   const [movie, setMovie] = useState<MovieDetailsType>();
   const [relatedMovies, setRelatedMovies] = useState<RelatedMovies>();
 
@@ -26,13 +28,14 @@ export const MovieDetails = ({ id }: Props) => {
   }, [id]);
 
   return (
-    <div>
-      <Loader data={movie}>
+    <div className="space-y-4">
+      <Loader data={movie} type="vertical">
         {(loaded) => (
           <div>
-            <img
+            <Image
               src={loaded.poster || "https://placehold.co/300x444"}
               alt={loaded.title}
+              className="w-auto"
             />
 
             <div className="movie-content">
@@ -55,21 +58,24 @@ export const MovieDetails = ({ id }: Props) => {
         )}
       </Loader>
 
-      <Loader data={relatedMovies}>
+      {cast}
+
+      <Loader data={relatedMovies} type="horizontal">
         {(loaded) => (
           <div>
             <h3>Related Movies</h3>
 
-            <div className="related-movies">
+            <div className="flex gap-4 overflow-x-auto pb-2">
               {loaded.map((movie) => (
                 <Link
                   key={movie.id}
-                  className="related-movie"
+                  className="w-32 flex-0 shrink-0 basis-auto"
                   to={`/movies/${movie.id}`}
                 >
-                  <img
+                  <Image
                     src={movie.poster || "https://placehold.co/100x150"}
                     alt={movie.title}
+                    className="w-full h-[180px]"
                   />
                   <div>{movie.title}</div>
                 </Link>

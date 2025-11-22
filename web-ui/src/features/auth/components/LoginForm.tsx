@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router";
 import { loginUser } from "../api";
-import { useUser } from "../useUser";
 import { useState } from "react";
+import { useUser } from "../../../shared/userContext";
 
 export const LoginForm = () => {
   const [error, setError] = useState<string | null>(null);
 
-  const { setUser } = useUser();
+  const [, setUser] = useUser();
   const navigate = useNavigate();
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {

@@ -2,11 +2,12 @@ namespace IMDB_API.Application.DTOs;
 
 public class CastDto
 {
-    public int Ordering { get; set; }
+    public required int Ordering { get; set; }
 
-    public string? PersonId { get; set; }
+    public required string PersonId { get; set; }
+    public string? PersonName { get; set; }
 
-    public string Category { get; set; } = null!;
+    public required string Category { get; set; } = null!;
 
     public string? Job { get; set; }
 

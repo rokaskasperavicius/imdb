@@ -13,6 +13,7 @@ public class CastRepository : ICastRepository
         {
             Ordering = c.Ordering,
             PersonId = c.Nconst,
+            PersonName = c.NconstNavigation.Primaryname,
             Category = c.Category,
             Character = c.Characters,
             Job = c.Job
