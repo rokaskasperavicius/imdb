@@ -1,12 +1,12 @@
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-import 'bootstrap-icons/font/bootstrap-icons.css'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router'
 
+import { App } from '@/app/App'
+
 import { UserProvider } from '@/shared/userContext'
 
-import { App } from './App'
 import './index.css'
 
 const darkTheme = createTheme({

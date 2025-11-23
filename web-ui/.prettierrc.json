@@ -5,11 +5,10 @@
   "jsxSingleQuote": true,
   "semi": false,
   "importOrder": [
-    "^@/assets/(.*)$",
+    "^@/app/(.*)$",
     "^@/components/(.*)$",
     "^@/features/(.*)$",
     "^@/layouts/(.*)$",
-    "^@/pages/(.*)$",
     "^@/shared/(.*)$",
     "^@/types/(.*)$",
     "^[./]"

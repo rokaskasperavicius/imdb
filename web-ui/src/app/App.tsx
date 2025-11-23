@@ -1,18 +1,18 @@
+import 'bootstrap-icons/font/bootstrap-icons.css'
 import { Navigate, Route, Routes } from 'react-router'
 
 import { MainLayout } from '@/layouts/MainLayout'
 
-import { LoginPage } from '@/pages/LoginPage'
-import { LogoutPage } from '@/pages/LogoutPage'
-import { MovieDetailsPage } from '@/pages/MovieDetailsPage'
-import { MoviesPage } from '@/pages/MoviesPage'
-import { PeoplePage } from '@/pages/PeoplePage'
-import { PersonDetailsPage } from '@/pages/PersonDetailsPage'
-import { ProfilePage } from '@/pages/ProfilePage'
-import { RegisterPage } from '@/pages/RegisterPage'
-import { SearchPage } from '@/pages/SearchPage'
-
 import './App.css'
+import { LoginPage } from './pages/LoginPage'
+import { LogoutPage } from './pages/LogoutPage'
+import { MovieDetailsPage } from './pages/MovieDetailsPage'
+import { MoviesPage } from './pages/MoviesPage'
+import { PeoplePage } from './pages/PeoplePage'
+import { PersonDetailsPage } from './pages/PersonDetailsPage'
+import { ProfilePage } from './pages/ProfilePage'
+import { RegisterPage } from './pages/RegisterPage'
+import { SearchPage } from './pages/SearchPage'
 
 export const App = () => {
   return (
