@@ -11,6 +11,7 @@
     "^@/layouts/(.*)$",
     "^@/pages/(.*)$",
     "^@/shared/(.*)$",
+    "^@/types/(.*)$",
     "^[./]"
   ],
   "importOrderSeparation": true,

@@ -1,4 +1,4 @@
-import type { paths } from '@/schema'
+import type { paths } from '@/types/schema'
 
 export type AllPeopleType =
   paths['/api/People']['get']['responses']['200']['content']['application/json']

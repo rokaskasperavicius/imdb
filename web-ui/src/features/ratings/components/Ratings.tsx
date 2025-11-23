@@ -25,7 +25,7 @@ export const Ratings = ({ token, movies }: Props) => {
   }, [token, navigate])
 
   return (
-    <Loader data={userRatings} type='vertical'>
+    <Loader data={userRatings} type='horizontal'>
       {(loaded) => movies(loaded.map((rating) => rating.id))}
     </Loader>
   )

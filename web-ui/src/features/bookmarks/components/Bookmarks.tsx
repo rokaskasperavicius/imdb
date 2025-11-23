@@ -25,7 +25,7 @@ export const Bookmarks = ({ token, movies }: Props) => {
   }, [token, navigate])
 
   return (
-    <Loader data={userBookmarks} type='vertical'>
+    <Loader data={userBookmarks} type='horizontal'>
       {(loaded) => movies(loaded.map((bookmark) => bookmark.id))}
     </Loader>
   )
