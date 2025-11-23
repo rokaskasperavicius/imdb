@@ -736,6 +736,8 @@ export interface components {
             password: string;
         };
         SearchDto: {
+            /** Format: int32 */
+            id: number;
             query: string;
             /** Format: date-time */
             createdAt: string;

@@ -20,6 +20,7 @@ public class UserSearchRepository : IUserSearchRepository
             .Where(b => b.UserId == userId)
             .Select(ush => new UserSearch
             {
+                Id = ush.Id,
                 UserId = userId,
                 Query = ush.SearchQuery,
                 CreatedAt = ush.CreatedAt

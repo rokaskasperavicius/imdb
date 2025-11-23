@@ -1,14 +1,15 @@
-import { useParams } from "react-router";
-import { MovieDetails } from "../features/movies/components/MovieDetails";
-import { Cast } from "../features/cast/components/Cast";
+import { useParams } from 'react-router'
+
+import { Cast } from '@/features/cast/components/Cast'
+import { MovieDetails } from '@/features/movies/components/MovieDetails'
 
 export const MovieDetailsPage = () => {
-  const params = useParams();
-  const movieId = params.movieId;
+  const params = useParams()
+  const movieId = params.movieId
 
   if (!movieId) {
-    return null;
+    return null
   }
 
-  return <MovieDetails id={movieId} cast={<Cast movieId={movieId} />} />;
-};
+  return <MovieDetails id={movieId} cast={<Cast movieId={movieId} />} />
+}

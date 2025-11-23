@@ -1,30 +1,32 @@
-import { useEffect, useState } from "react";
-import { fetchMovies } from "../api";
-import type { AllMovies } from "../types";
-import { Loader } from "../../../components/Loader";
-import Pagination from "@mui/material/Pagination";
-import { Movie } from "./Movie";
+import Pagination from '@mui/material/Pagination'
+import { useEffect, useState } from 'react'
+
+import { Loader } from '@/components/Loader'
+
+import { fetchMovies } from '../api'
+import type { AllMovies } from '../types'
+import { Movie } from './Movie'
 
 export const Movies = () => {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(1)
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    setPage(value);
-  };
-  const [movies, setMovies] = useState<AllMovies>();
+    setPage(value)
+  }
+  const [movies, setMovies] = useState<AllMovies>()
 
   useEffect(() => {
     const load = async () => {
-      const data = await fetchMovies(page);
-      setMovies(data);
-    };
+      const data = await fetchMovies(page)
+      setMovies(data)
+    }
 
-    load();
-  }, [page]);
+    load()
+  }, [page])
 
   return (
     <div>
-      <div role="list" className="flex flex-col gap-6">
-        <Loader data={movies} type="vertical">
+      <div role='list' className='flex flex-col gap-6'>
+        <Loader data={movies} type='vertical'>
           {(loaded) =>
             loaded.data?.map((movie, index) => (
               <Movie
@@ -39,12 +41,12 @@ export const Movies = () => {
 
       {movies && (
         <Pagination
-          className="justify-center"
+          className='justify-center'
           count={movies.totalPages}
           page={page}
           onChange={handleChange}
         />
       )}
     </div>
-  );
-};
+  )
+}

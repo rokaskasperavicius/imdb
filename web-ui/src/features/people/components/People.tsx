@@ -1,30 +1,32 @@
-import { useEffect, useState } from "react";
-import { fetchPeople } from "../api";
-import type { AllPeopleType } from "../types";
-import { Loader } from "../../../components/Loader";
-import Pagination from "@mui/material/Pagination";
-import { Person } from "./Person";
+import Pagination from '@mui/material/Pagination'
+import { useEffect, useState } from 'react'
+
+import { Loader } from '@/components/Loader'
+
+import { fetchPeople } from '../api'
+import type { AllPeopleType } from '../types'
+import { Person } from './Person'
 
 export const People = () => {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(1)
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    setPage(value);
-  };
-  const [people, setPeople] = useState<AllPeopleType>();
+    setPage(value)
+  }
+  const [people, setPeople] = useState<AllPeopleType>()
 
   useEffect(() => {
     const load = async () => {
-      const data = await fetchPeople(page);
-      setPeople(data);
-    };
+      const data = await fetchPeople(page)
+      setPeople(data)
+    }
 
-    load();
-  }, [page]);
+    load()
+  }, [page])
 
   return (
     <div>
-      <div role="list" className="flex flex-col gap-6">
-        <Loader data={people} type="vertical">
+      <div role='list' className='flex flex-col gap-6'>
+        <Loader data={people} type='vertical'>
           {(loaded) =>
             loaded.data?.map((person, index) => (
               <Person
@@ -39,12 +41,12 @@ export const People = () => {
 
       {people && (
         <Pagination
-          className="justify-center"
+          className='justify-center'
           count={people.totalPages}
           page={page}
           onChange={handleChange}
         />
       )}
     </div>
-  );
-};
+  )
+}

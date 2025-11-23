@@ -4,28 +4,8 @@
   margin: auto;
 }
 
-.layout {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.content {
-  flex: 1;
-  padding: 20px;
-}
-
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   border-bottom: 1px solid var(--text-color);
-  padding: 10px 20px;
-}
-
-nav {
-  display: flex;
-  gap: 16px;
 }
 
 .input-form {
@@ -41,4 +21,17 @@ nav {
     background-color: transparent;
     color: var(--text-color);
   }
+}
+
+h2 {
+  font-size: 1.25rem;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+button {
+  padding: 8px 16px;
+  border: 1px solid var(--text-color);
+  border-radius: 4px;
+  cursor: pointer;
 }

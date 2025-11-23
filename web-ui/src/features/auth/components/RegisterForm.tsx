@@ -1,17 +1,13 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { useNavigate } from 'react-router'
 
 import { Button } from '@/components/Button'
 import { InputForm } from '@/components/InputForm'
 
-import { useUser } from '@/shared/userContext'
+import { registerUser } from '../api'
 
-import { loginUser } from '../api'
-
-export const LoginForm = () => {
+export const RegisterForm = () => {
   const [error, setError] = useState<string | null>(null)
-
-  const [, setUser] = useUser()
   const navigate = useNavigate()
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -19,27 +15,31 @@ export const LoginForm = () => {
     e.preventDefault()
 
     const formData = new FormData(e.currentTarget)
+    const name = formData.get('name') as string
     const email = formData.get('email') as string
     const password = formData.get('password') as string
+    const confirmPassword = formData.get('confirmPassword') as string
 
-    const data = await loginUser(email, password)
+    if (password !== confirmPassword) {
+      setError('Passwords do not match')
+      return
+    }
+
+    const data = await registerUser(name, email, password)
 
     if (data.isError) {
       setError(data.message)
       return
     }
 
-    setUser(() => ({
-      name: data.name as string,
-      token: data.accessToken as string,
-    }))
-
-    navigate('/')
+    navigate('/login')
   }
 
   return (
     <form onSubmit={submit} className='space-y-4'>
       <div>
+        <InputForm label='Name' id='name' name='name' type='text' required />
+
         <InputForm
           label='Email'
           id='email'
@@ -56,19 +56,18 @@ export const LoginForm = () => {
           required
         />
 
+        <InputForm
+          label='Confirm Password'
+          id='confirmPassword'
+          name='confirmPassword'
+          type='password'
+          required
+        />
+
         {error && <p className='text-red-600'>{error}</p>}
       </div>
 
-      <div className='space-y-2'>
-        <Button type='submit'>Sign in</Button>
-
-        <p>
-          Don't have an account?{' '}
-          <Link to='/register' className='underline'>
-            Register here
-          </Link>
-        </p>
-      </div>
+      <Button type='submit'>Sign up</Button>
     </form>
   )
 }

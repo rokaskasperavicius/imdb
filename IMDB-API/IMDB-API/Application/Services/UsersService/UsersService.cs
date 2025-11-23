@@ -44,7 +44,8 @@ public class UsersService : IUsersService
         }
         catch (Exception ex)
         {
-            throw new InvalidOperationException("User already exists", ex);
+            throw new InvalidOperationException("This email already exists",
+                ex);
         }
     }
 

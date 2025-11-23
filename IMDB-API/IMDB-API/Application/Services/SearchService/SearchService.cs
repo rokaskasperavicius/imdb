@@ -20,6 +20,7 @@ public class SearchService : ISearchService
         var mapped =
             userSearches.Select(us => new SearchDto
             {
+                Id = us.Id,
                 Query = us.Query,
                 CreatedAt = us.CreatedAt
             }).ToList();
