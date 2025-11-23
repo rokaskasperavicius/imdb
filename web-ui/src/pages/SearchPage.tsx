@@ -3,7 +3,7 @@ import { Navigate, useSearchParams } from 'react-router'
 import { useDebounce } from 'react-use'
 
 import { SearchMovies } from '@/features/movies/components/SearchMovies'
-import { Search } from '@/features/search/components/Search'
+import { SearchHistory } from '@/features/search/components/SearchHistory'
 
 import { useUser } from '@/shared/userContext'
 
@@ -31,10 +31,10 @@ export const SearchPage = () => {
   }
 
   return (
-    <div>
+    <div className='space-y-4'>
       <h2>Search your favorite movies</h2>
 
-      <Search
+      <SearchHistory
         token={user.token}
         query={query}
         reload={reloadFlag}

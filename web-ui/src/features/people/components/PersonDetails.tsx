@@ -39,7 +39,7 @@ export const PersonDetails = ({ id, knownForMovies }: Props) => {
 
   return (
     <div className='space-y-4'>
-      <Loader data={person} type='vertical'>
+      <Loader data={person} type='vertical-narrow'>
         {(loaded) => (
           <div>
             <Image

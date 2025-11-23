@@ -16,6 +16,8 @@ export const People = () => {
 
   useEffect(() => {
     const load = async () => {
+      setPeople(undefined) // Show loader on new page
+
       const data = await fetchPeople(page)
       setPeople(data)
     }
@@ -24,7 +26,7 @@ export const People = () => {
   }, [page])
 
   return (
-    <div>
+    <div className='space-y-4'>
       <div role='list' className='flex flex-col gap-6'>
         <Loader data={people} type='vertical'>
           {(loaded) =>

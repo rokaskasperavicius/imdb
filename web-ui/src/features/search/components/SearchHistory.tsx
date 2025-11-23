@@ -15,7 +15,12 @@ type Props = {
   onQueryChange: (newQuery: string) => void
 }
 
-export const Search = ({ token, query, reload, onQueryChange }: Props) => {
+export const SearchHistory = ({
+  token,
+  query,
+  reload,
+  onQueryChange,
+}: Props) => {
   const navigate = useNavigate()
   const [searches, setSearches] = useState<AllSearches>()
 
@@ -30,7 +35,7 @@ export const Search = ({ token, query, reload, onQueryChange }: Props) => {
 
   return (
     <div>
-      <Loader data={searches} type='vertical'>
+      <Loader data={searches} type='vertical-narrow'>
         {(loaded) =>
           loaded?.length === 0 ? null : (
             <div>

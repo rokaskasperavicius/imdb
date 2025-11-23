@@ -37,7 +37,7 @@ export const MovieDetails = ({ id, cast, rate, bookmark }: Props) => {
 
   return (
     <div className='space-y-4'>
-      <Loader data={movie} type='vertical'>
+      <Loader data={movie} type='vertical-narrow'>
         {(loaded) => (
           <div className='space-y-2'>
             <Image

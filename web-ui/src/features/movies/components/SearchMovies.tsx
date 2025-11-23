@@ -19,9 +19,12 @@ export const SearchMovies = ({ query, token, reload }: Props) => {
 
   useEffect(() => {
     const load = async () => {
-      const data = await fetchMoviesBySearch(query, token, navigate)
+      setMovies(undefined) // Show loader on new search
 
+      const data = await fetchMoviesBySearch(query, token, navigate)
       setMovies(data)
+
+      // Notifies parent to reload search history
       reload()
     }
 
@@ -33,9 +36,13 @@ export const SearchMovies = ({ query, token, reload }: Props) => {
     <div role='list' className='flex flex-col gap-6'>
       <Loader data={movies} type='vertical'>
         {(loaded) =>
-          loaded.map((movie, index) => (
-            <Movie key={movie.id} movie={movie} titleCount={index + 1} />
-          ))
+          loaded.length === 0 ? (
+            <p>No results found for "{query}"</p>
+          ) : (
+            loaded.map((movie, index) => (
+              <Movie key={movie.id} movie={movie} titleCount={index + 1} />
+            ))
+          )
         }
       </Loader>
     </div>

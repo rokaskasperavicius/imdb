@@ -16,6 +16,8 @@ export const Movies = () => {
 
   useEffect(() => {
     const load = async () => {
+      setMovies(undefined) // Show loader on new page
+
       const data = await fetchMovies(page)
       setMovies(data)
     }
@@ -24,7 +26,7 @@ export const Movies = () => {
   }, [page])
 
   return (
-    <div>
+    <div className='space-y-4'>
       <div role='list' className='flex flex-col gap-6'>
         <Loader data={movies} type='vertical'>
           {(loaded) =>
