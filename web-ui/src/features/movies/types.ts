@@ -3,6 +3,9 @@ import type { paths } from '@/schema'
 export type AllMovies =
   paths['/api/Movies']['get']['responses']['200']['content']['application/json']
 
+export type AllMoviesBySearch =
+  paths['/api/Movies/search']['get']['responses']['200']['content']['application/json']
+
 export type AllMoviesBatch =
   paths['/api/Movies/batch']['get']['responses']['200']['content']['application/json']
 

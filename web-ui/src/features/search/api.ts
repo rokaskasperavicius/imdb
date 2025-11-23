@@ -2,6 +2,7 @@ import type { NavigateFunction } from 'react-router'
 
 import type { AllSearches } from './types'
 
+// Authenticated
 export const fetchSearches = async (
   token: string,
   navigate: NavigateFunction,

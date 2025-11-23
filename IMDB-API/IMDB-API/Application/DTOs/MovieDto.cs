@@ -10,6 +10,6 @@ public class MovieDto
     public string? Plot { get; set; }
     public string? Poster { get; set; }
     public List<string> Genres { get; set; }
-    public decimal AverageRating { get; set; }
-    public decimal NumberOfVotes { get; set; }
+    public required decimal AverageRating { get; set; }
+    public required decimal NumberOfVotes { get; set; }
 }

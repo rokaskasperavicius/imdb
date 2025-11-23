@@ -6,24 +6,38 @@ export const Header = () => {
   const [user] = useUser()
 
   return (
-    <header className='flex justify-between items-center py-2.5 px-5 '>
-      <h1>IMDB</h1>
+    <header className='flex justify-between items-center py-2.5 px-5 gap-4'>
+      <LinkItem to='/movies'>
+        <h1>IMDB</h1>
+      </LinkItem>
 
-      <nav className='flex gap-4'>
-        <Link to='/'>Home</Link>
-        <Link to='/movies'>Movies</Link>
-        <Link to='/people'>People</Link>
+      <nav className='flex gap-4 overflow-x-auto'>
+        <LinkItem to='/movies'>Movies</LinkItem>
+        <LinkItem to='/people'>People</LinkItem>
 
         {user?.token ? (
           <>
-            <Link to='/search'>Search</Link>
-            <span>Welcome, {user.name}</span>
-            <Link to='/logout'>Sign out</Link>
+            <LinkItem to='/search'>Search</LinkItem>
+
+            <LinkItem to='/profile'>Profile</LinkItem>
+
+            <LinkItem to='/logout'>Sign out</LinkItem>
           </>
         ) : (
-          <Link to='/login'>Sign in</Link>
+          <LinkItem to='/login'>Sign in</LinkItem>
         )}
       </nav>
     </header>
   )
 }
+
+type LinkItemProps = {
+  to: string
+  children: React.ReactNode
+}
+
+const LinkItem = ({ to, children }: LinkItemProps) => (
+  <Link to={to} className='hover:underline whitespace-nowrap'>
+    {children}
+  </Link>
+)

@@ -14,7 +14,7 @@ export const Loader = <T,>({ data, type = 'default', children }: Loader<T>) => {
       return <VerticalSkeleton />
     }
 
-    return <div>Loading...</div>
+    return null
   }
 
   return <>{children(data)}</>

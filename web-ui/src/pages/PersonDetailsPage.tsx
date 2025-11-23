@@ -1,6 +1,6 @@
 import { useParams } from 'react-router'
 
-import { KnownForMovies } from '@/features/movies/components/KnownForMovies'
+import { BatchMovies } from '@/features/movies/components/BatchMovies'
 import { PersonDetails } from '@/features/people/components/PersonDetails'
 
 export const PersonDetailsPage = () => {
@@ -14,7 +14,13 @@ export const PersonDetailsPage = () => {
   return (
     <PersonDetails
       id={personId}
-      knownForMovies={(movieIds) => <KnownForMovies movieIds={movieIds} />}
+      knownForMovies={(movieIds) => (
+        <BatchMovies
+          title='Known for movies'
+          emptyTitle=''
+          movieIds={movieIds}
+        />
+      )}
     />
   )
 }

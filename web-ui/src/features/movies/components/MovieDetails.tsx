@@ -1,19 +1,25 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router'
 
+import {
+  HorizontalContent,
+  HorizontalContentItem,
+} from '@/components/HorizontalContent'
 import { Image } from '@/components/Image'
 import { Loader } from '@/components/Loader'
 
 import { fetchMovie, fetchRelatedMovies } from '../api'
 import type { MovieDetails as MovieDetailsType, RelatedMovies } from '../types'
+import { MovieRatings } from './MovieRatings'
 import { Runtime } from './Runtime'
 
 type Props = {
   id: string
   cast: React.ReactElement
+  rate: React.ReactElement
+  bookmark: React.ReactElement
 }
 
-export const MovieDetails = ({ id, cast }: Props) => {
+export const MovieDetails = ({ id, cast, rate, bookmark }: Props) => {
   const [movie, setMovie] = useState<MovieDetailsType>()
   const [relatedMovies, setRelatedMovies] = useState<RelatedMovies>()
 
@@ -33,27 +39,35 @@ export const MovieDetails = ({ id, cast }: Props) => {
     <div className='space-y-4'>
       <Loader data={movie} type='vertical'>
         {(loaded) => (
-          <div>
+          <div className='space-y-2'>
             <Image
               src={loaded.poster || 'https://placehold.co/300x444'}
               alt={loaded.title}
-              className='w-auto'
+              className='w-auto h-auto'
             />
 
-            <div className='movie-content'>
-              <h2>{loaded.title}</h2>
+            <div>
+              <h2 className='flex gap-2'>
+                {loaded.title} {bookmark}
+              </h2>
 
-              <div className='movie-content-first'>
-                <span>{loaded.year}</span>
-                <Runtime minutes={loaded.runTimeInMinutes} />
-                <span>{loaded.isAdult ? '18+' : 'All ages'}</span>
-              </div>
+              <div className='space-y-2'>
+                <div className='flex gap-2'>
+                  <span>{loaded.year}</span>
+                  <Runtime minutes={loaded.runTimeInMinutes} />
+                  <span>{loaded.isAdult ? '18+' : 'All ages'}</span>
+                </div>
 
-              <p className='movie-plot'>{loaded.plot}</p>
-              <>Genres: {loaded.genres?.join(', ')}</>
+                <p className='movie-plot'>{loaded.plot}</p>
 
-              <div>
-                {loaded.averageRating} ({loaded.numberOfVotes})
+                <div>Genres: {loaded.genres?.join(', ')}</div>
+
+                <MovieRatings
+                  averageRating={loaded.averageRating}
+                  numberOfVotes={loaded.numberOfVotes}
+                />
+
+                {rate}
               </div>
             </div>
           </div>
@@ -65,24 +79,22 @@ export const MovieDetails = ({ id, cast }: Props) => {
       <Loader data={relatedMovies} type='horizontal'>
         {(loaded) => (
           <div>
-            <h3>Related Movies</h3>
+            <h3>Related movies</h3>
 
-            <div className='flex gap-4 overflow-x-auto pb-2'>
+            <HorizontalContent>
               {loaded.map((movie) => (
-                <Link
+                <HorizontalContentItem
                   key={movie.id}
-                  className='w-32 flex-0 shrink-0 basis-auto'
                   to={`/movies/${movie.id}`}
                 >
                   <Image
-                    src={movie.poster || 'https://placehold.co/100x150'}
-                    alt={movie.title}
-                    className='w-full h-[180px]'
+                    src={movie.poster}
+                    alt={movie.title || 'Movie Poster'}
                   />
                   <div>{movie.title}</div>
-                </Link>
+                </HorizontalContentItem>
               ))}
-            </div>
+            </HorizontalContent>
           </div>
         )}
       </Loader>

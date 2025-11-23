@@ -390,6 +390,9 @@ public partial class ImdbDbContext : DbContext
 
             entity.ToTable("user_search_history");
 
+            entity.HasIndex(e => new { e.UserId, e.SearchQuery },
+                "user_search_history_user_id_search_query_key").IsUnique();
+
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")

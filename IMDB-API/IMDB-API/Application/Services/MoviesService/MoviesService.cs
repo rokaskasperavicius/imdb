@@ -56,6 +56,15 @@ public class MoviesService : IMoviesService
         return movies.Select(MovieToDto).ToList();
     }
 
+    public async Task<List<MovieDto>> GetMoviesBySearch(int userId,
+        string searchQuery)
+    {
+        var movies =
+            await _moviesRepository.GetMoviesBySearch(userId, searchQuery);
+
+        return movies.Select(MovieToDto).ToList();
+    }
+
     private static MovieDto MovieToDto(Movie movie)
     {
         return new MovieDto

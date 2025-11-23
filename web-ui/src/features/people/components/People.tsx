@@ -9,7 +9,7 @@ import { Person } from './Person'
 
 export const People = () => {
   const [page, setPage] = useState(1)
-  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+  const handleChange = (_: React.ChangeEvent<unknown>, value: number) => {
     setPage(value)
   }
   const [people, setPeople] = useState<AllPeopleType>()
@@ -41,7 +41,7 @@ export const People = () => {
 
       {people && (
         <Pagination
-          className='justify-center'
+          className='flex justify-center'
           count={people.totalPages}
           page={page}
           onChange={handleChange}

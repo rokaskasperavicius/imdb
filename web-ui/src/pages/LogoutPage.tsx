@@ -10,5 +10,5 @@ export const LogoutPage = () => {
     setUser(() => ({ name: null, token: null }))
   }, [setUser])
 
-  return <Navigate to='/' replace />
+  return <Navigate to='/movies' replace />
 }

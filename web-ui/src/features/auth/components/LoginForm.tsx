@@ -34,7 +34,7 @@ export const LoginForm = () => {
       token: data.accessToken as string,
     }))
 
-    navigate('/')
+    navigate('/movies')
   }
 
   return (

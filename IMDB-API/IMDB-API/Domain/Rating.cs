@@ -4,5 +4,6 @@ public class Rating
 {
     public int UserId { get; set; }
     public string TitleId { get; set; }
-    public int? TitleRating { get; set; }
+    public int TitleRating { get; set; }
+    public DateTime CreatedAt { get; set; }
 }

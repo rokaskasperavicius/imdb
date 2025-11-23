@@ -25,14 +25,16 @@ export const Person = ({ person, personCount }: Props) => {
         alt={person?.primaryName || 'Person Poster'}
       />
 
-      <div>
+      <div className='space-y-2'>
         <h4>
           {personCount}. {person.primaryName}
         </h4>
 
-        <div>{person.birthYear && `Born: ${person.birthYear}`}</div>
-        <div>{person.deathYear && `Died: ${person.deathYear}`}</div>
-        <>Professions: {person.professions?.join(', ')}</>
+        <div>
+          <div>{person.birthYear && `Born: ${person.birthYear}`}</div>
+          <div>{person.deathYear && `Died: ${person.deathYear}`}</div>
+          <div>Professions: {person.professions?.join(', ')}</div>
+        </div>
       </div>
     </Link>
   )

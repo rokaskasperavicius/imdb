@@ -34,7 +34,9 @@ CREATE OR REPLACE PROCEDURE p_update_user_search_history(
 BEGIN
     IF COALESCE(TRIM(p_search_query), '') <> '' THEN
         INSERT INTO user_search_history (user_id, search_query)
-        VALUES (p_user_id, TRIM(p_search_query));
+        VALUES (p_user_id, TRIM(p_search_query))
+        ON CONFLICT (user_id, search_query)
+        DO UPDATE SET created_at = CURRENT_TIMESTAMP;
     END IF;
 END $$;
 

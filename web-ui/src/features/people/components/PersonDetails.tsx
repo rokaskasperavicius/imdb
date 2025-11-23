@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router'
 
+import {
+  HorizontalContent,
+  HorizontalContentItem,
+} from '@/components/HorizontalContent'
 import { Image } from '@/components/Image'
 import { Loader } from '@/components/Loader'
 
@@ -42,15 +45,15 @@ export const PersonDetails = ({ id, knownForMovies }: Props) => {
             <Image
               src={url || 'https://placehold.co/300x444'}
               alt={person?.primaryName || 'Person Poster'}
-              className='w-auto'
+              className='w-auto h-auto'
             />
 
             <div>
-              <h4>{loaded.primaryName}</h4>
+              <h2>{loaded.primaryName}</h2>
 
               <div>{loaded.birthYear && `Born: ${loaded.birthYear}`}</div>
               <div>{loaded.deathYear && `Died: ${loaded.deathYear}`}</div>
-              <>Professions: {loaded.professions?.join(', ')}</>
+              <div>Professions: {loaded.professions?.join(', ')}</div>
             </div>
           </div>
         )}
@@ -63,13 +66,13 @@ export const PersonDetails = ({ id, knownForMovies }: Props) => {
       <Loader type='horizontal' data={relatedPeople}>
         {(loaded) => (
           <div>
-            <h3>Related People</h3>
+            <h3>Related people</h3>
 
-            <div className='flex gap-4 overflow-x-auto pb-2'>
+            <HorizontalContent>
               {loaded.map((person) => (
                 <RelatedPerson key={person.id} person={person} />
               ))}
-            </div>
+            </HorizontalContent>
           </div>
         )}
       </Loader>
@@ -85,17 +88,9 @@ export const RelatedPerson = ({
   const url = usePersonPoster(person.id)
 
   return (
-    <Link
-      key={person.id}
-      className='w-32 flex-0 shrink-0 basis-auto'
-      to={`/people/${person.id}`}
-    >
-      <Image
-        src={url || 'https://placehold.co/100x150'}
-        alt={person?.primaryName || 'Person Poster'}
-        className='w-full h-[180px]'
-      />
+    <HorizontalContentItem key={person.id} to={`/people/${person.id}`}>
+      <Image src={url} alt={person?.primaryName || 'Person Poster'} />
       <div>{person.primaryName}</div>
-    </Link>
+    </HorizontalContentItem>
   )
 }

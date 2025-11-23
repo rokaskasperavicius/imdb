@@ -15,7 +15,8 @@ public class RatingRepository : IRatingRepository
             {
                 UserId = n.UserId,
                 TitleId = n.BasicTconst,
-                TitleRating = n.Rating
+                TitleRating = n.Rating,
+                CreatedAt = n.CreatedAt
             };
 
     private readonly ImdbDbContext _imdbDbContext;

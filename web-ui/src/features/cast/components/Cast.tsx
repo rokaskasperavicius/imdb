@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router'
 
+import {
+  HorizontalContent,
+  HorizontalContentItem,
+} from '@/components/HorizontalContent'
 import { Image } from '@/components/Image'
 import { Loader } from '@/components/Loader'
 
@@ -32,21 +35,30 @@ export const Cast = ({ movieId }: Props) => {
         <div>
           <h3>Cast</h3>
 
-          <div className='flex gap-4 overflow-x-auto pb-2'>
+          <HorizontalContent>
             {loaded
               .sort((a, b) => a.ordering - b.ordering)
               .map((cast) => (
-                <Link
-                  key={cast.personId}
-                  className='w-32 flex-0 shrink-0 basis-auto'
+                <HorizontalContentItem
+                  key={cast.personId + cast.ordering}
                   to={`/people/${cast.personId}`}
                 >
                   <CastImage cast={cast} />
-                  <div>{cast.personName}</div>
-                  <div>{cast.character}</div>
-                </Link>
+
+                  <div>
+                    <div>{cast.personName}</div>
+
+                    <div className='text-sm text-neutral-400'>
+                      {cast.character}
+                    </div>
+
+                    <div className='text-sm text-neutral-400 capitalize mt-0.5'>
+                      {cast.category.split('_').join(' ')}
+                    </div>
+                  </div>
+                </HorizontalContentItem>
               ))}
-          </div>
+          </HorizontalContent>
         </div>
       )}
     </Loader>
@@ -56,11 +68,5 @@ export const Cast = ({ movieId }: Props) => {
 export const CastImage = ({ cast }: { cast: CastType[number] }) => {
   const url = usePersonPoster(cast.personId)
 
-  return (
-    <Image
-      src={url || 'https://placehold.co/100x176'}
-      className='w-full h-[180px]'
-      alt={cast.personName || 'Person Poster'}
-    />
-  )
+  return <Image src={url} alt={cast.personName || 'Person Poster'} />
 }

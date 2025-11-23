@@ -217,6 +217,45 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/Movies/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    query?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["MovieDto"][];
+                        "application/json": components["schemas"]["MovieDto"][];
+                        "text/json": components["schemas"]["MovieDto"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/Movies/batch": {
         parameters: {
             query?: never;
@@ -659,7 +698,7 @@ export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
         BookmarkDto: {
-            id?: string;
+            id: string;
         };
         CastDto: {
             /** Format: int32 */
@@ -685,9 +724,9 @@ export interface components {
             poster?: string | null;
             genres?: string[];
             /** Format: double */
-            averageRating?: number;
+            averageRating: number;
             /** Format: double */
-            numberOfVotes?: number;
+            numberOfVotes: number;
         };
         PagedResultsOfListOfMovieDto: {
             data: components["schemas"]["MovieDto"][] | null;
@@ -726,9 +765,11 @@ export interface components {
             rating?: number;
         };
         RatingDto: {
-            id?: string;
+            id: string;
             /** Format: int32 */
-            rating?: number;
+            rating: number;
+            /** Format: date-time */
+            createdAt: string;
         };
         RegisterRequest: {
             name: string;

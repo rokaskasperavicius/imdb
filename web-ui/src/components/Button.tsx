@@ -3,7 +3,10 @@ export const Button = ({
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
-    <button className='w-full hover:bg-neutral-700' {...props}>
+    <button
+      className='w-full py-2 px-4 rounded-sm hover:bg-neutral-700 border border-root-text-color'
+      {...props}
+    >
       {children}
     </button>
   )

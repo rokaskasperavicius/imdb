@@ -1,10 +1,12 @@
 type Props = {
+  src: string | null | undefined
   className?: string
-} & React.ImgHTMLAttributes<HTMLImageElement>
+} & Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'src'>
 
-export const Image = (props: Props) => (
+export const Image = ({ src, className, ...props }: Props) => (
   <img
-    className={`${props.className} w-[100px] h-44 object-cover`}
+    className={`${className || ''} w-28 h-44 object-cover`}
+    src={src || 'https://placehold.co/112x176'}
     {...props}
   />
 )
