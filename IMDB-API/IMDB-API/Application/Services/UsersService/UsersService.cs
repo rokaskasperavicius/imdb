@@ -44,7 +44,7 @@ public class UsersService : IUsersService
         }
         catch (Exception ex)
         {
-            throw new InvalidOperationException("This email already exists",
+            throw new InvalidOperationException("Email is already taken",
                 ex);
         }
     }
