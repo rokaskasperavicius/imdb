@@ -1,7 +1,7 @@
-import Pagination from '@mui/material/Pagination'
 import { useEffect, useState } from 'react'
 
 import { Loader } from '@/components/Loader'
+import { Pagination } from '@/components/Pagination/Pagination'
 
 import { fetchPeople } from '../api'
 import type { AllPeopleType } from '../types'
@@ -9,9 +9,6 @@ import { Person } from './Person'
 
 export const People = () => {
   const [page, setPage] = useState(1)
-  const handleChange = (_: React.ChangeEvent<unknown>, value: number) => {
-    setPage(value)
-  }
   const [people, setPeople] = useState<AllPeopleType>()
 
   useEffect(() => {
@@ -26,7 +23,7 @@ export const People = () => {
   }, [page])
 
   return (
-    <div className='space-y-4'>
+    <div className='space-y-6'>
       <div role='list' className='flex flex-col gap-6'>
         <Loader data={people} type='vertical'>
           {(loaded) =>
@@ -42,12 +39,7 @@ export const People = () => {
       </div>
 
       {people && (
-        <Pagination
-          className='flex justify-center'
-          count={people.totalPages}
-          page={page}
-          onChange={handleChange}
-        />
+        <Pagination count={people.totalPages} page={page} onChange={setPage} />
       )}
     </div>
   )

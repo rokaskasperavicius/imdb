@@ -9,7 +9,7 @@ import type {
 } from './types'
 
 export const fetchMovies = async (page: number = 1): Promise<AllMovies> => {
-  const response = await fetch(`/api/movies?page=${page}`)
+  const response = await fetch(`/api/movies?page=${page}&pageSize=10`)
   const data = await response.json()
   return data
 }

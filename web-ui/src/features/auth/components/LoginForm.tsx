@@ -34,6 +34,8 @@ export const LoginForm = () => {
       token: data.accessToken as string,
     }))
 
+    // Should probably navigate to page user came from
+    // That logic is left for another time...
     navigate('/movies')
   }
 

@@ -1,7 +1,7 @@
 import type { AllPeopleType, PersonDetails, RelatedPeople } from './types'
 
 export const fetchPeople = async (page: number = 1): Promise<AllPeopleType> => {
-  const response = await fetch(`/api/people?page=${page}`)
+  const response = await fetch(`/api/people?page=${page}&pageSize=10`)
   const data = await response.json()
   return data
 }

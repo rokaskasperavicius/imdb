@@ -1,7 +1,7 @@
-import Pagination from '@mui/material/Pagination'
 import { useEffect, useState } from 'react'
 
 import { Loader } from '@/components/Loader'
+import { Pagination } from '@/components/Pagination/Pagination'
 
 import { fetchMovies } from '../api'
 import type { AllMovies } from '../types'
@@ -9,9 +9,6 @@ import { Movie } from './Movie'
 
 export const Movies = () => {
   const [page, setPage] = useState(1)
-  const handleChange = (_: React.ChangeEvent<unknown>, value: number) => {
-    setPage(value)
-  }
   const [movies, setMovies] = useState<AllMovies>()
 
   useEffect(() => {
@@ -26,7 +23,7 @@ export const Movies = () => {
   }, [page])
 
   return (
-    <div className='space-y-4'>
+    <div className='space-y-6'>
       <div role='list' className='flex flex-col gap-6'>
         <Loader data={movies} type='vertical'>
           {(loaded) =>
@@ -42,12 +39,7 @@ export const Movies = () => {
       </div>
 
       {movies && (
-        <Pagination
-          className='flex justify-center'
-          count={movies.totalPages}
-          page={page}
-          onChange={handleChange}
-        />
+        <Pagination page={page} count={movies.totalPages} onChange={setPage} />
       )}
     </div>
   )

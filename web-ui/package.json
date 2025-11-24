@@ -11,8 +11,6 @@
     "generate:api": "openapi-typescript http://localhost:5295/openapi/v1.json -o src/schema.ts"
   },
   "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
     "@mui/material": "^7.3.5",
     "@tailwindcss/vite": "^4.1.17",
     "bootstrap-icons": "^1.13.1",
