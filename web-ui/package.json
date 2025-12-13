@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "generate:api": "openapi-typescript http://localhost:5295/openapi/v1.json -o src/schema.ts"
+    "generate:api": "openapi-typescript http://localhost:5295/openapi/v1.json -o src/types/schema.ts"
   },
   "dependencies": {
     "@mui/material": "^7.3.5",
