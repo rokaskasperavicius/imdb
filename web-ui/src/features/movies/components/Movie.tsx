@@ -19,10 +19,7 @@ export const Movie = ({ movie, titleCount }: Props) => {
       role='listitem'
     >
       <div className='flex-0 shrink-0 basis-auto'>
-        <Image
-          src={movie.poster || 'https://placehold.co/300x444'}
-          alt={movie.title}
-        />
+        <Image src={movie.poster} alt={movie.title} />
       </div>
 
       <div>

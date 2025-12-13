@@ -47,6 +47,11 @@ header {
   content: '\f19c';
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 h1 {
   font-size: 1.25rem;
 }

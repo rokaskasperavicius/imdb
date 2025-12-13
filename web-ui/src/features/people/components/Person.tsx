@@ -20,10 +20,7 @@ export const Person = ({ person, personCount }: Props) => {
       className='hover:bg-neutral-700 flex gap-4'
       role='listitem'
     >
-      <Image
-        src={url || 'https://placehold.co/100x176'}
-        alt={person?.primaryName || 'Person Poster'}
-      />
+      <Image src={url} alt={person?.primaryName || 'Person Poster'} />
 
       <div className='space-y-2'>
         <h4>

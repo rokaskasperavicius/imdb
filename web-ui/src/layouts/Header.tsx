@@ -1,4 +1,6 @@
-import { Link } from 'react-router'
+import Nav from 'react-bootstrap/Nav'
+import NavDropdown from 'react-bootstrap/NavDropdown'
+import Navbar from 'react-bootstrap/Navbar'
 
 import { useUser } from '@/hooks/userContext'
 
@@ -6,38 +8,29 @@ export const Header = () => {
   const [user] = useUser()
 
   return (
-    <header className='flex justify-between items-center py-2.5 px-5 gap-4'>
-      <LinkItem to='/movies'>
-        <h1>IMDB</h1>
-      </LinkItem>
+    <header className='px-5'>
+      <Navbar expand='lg' className='w-full'>
+        <Navbar.Brand href='/movies'>IMDB</Navbar.Brand>
+        <Navbar.Toggle aria-controls='basic-navbar-nav' />
 
-      <nav className='flex gap-4 overflow-x-auto'>
-        <LinkItem to='/movies'>Movies</LinkItem>
-        <LinkItem to='/people'>People</LinkItem>
-
-        {user?.token ? (
-          <>
-            <LinkItem to='/search'>Search</LinkItem>
-
-            <LinkItem to='/profile'>Profile</LinkItem>
-
-            <LinkItem to='/logout'>Sign out</LinkItem>
-          </>
-        ) : (
-          <LinkItem to='/login'>Sign in</LinkItem>
-        )}
-      </nav>
+        <Navbar.Collapse id='basic-navbar-nav'>
+          <Nav className='w-full justify-end'>
+            <Nav.Link href='/movies'>Movies</Nav.Link>
+            <Nav.Link href='/people'>People</Nav.Link>
+            {user?.token ? (
+              <>
+                <Nav.Link href='/search'>Search</Nav.Link>
+                <Nav.Link href='/profile'>Profile</Nav.Link>
+                <NavDropdown title='Account'>
+                  <NavDropdown.Item href='/logout'>Sign out</NavDropdown.Item>
+                </NavDropdown>
+              </>
+            ) : (
+              <Nav.Link href='/login'>Sign in</Nav.Link>
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
     </header>
   )
 }
-
-type LinkItemProps = {
-  to: string
-  children: React.ReactNode
-}
-
-const LinkItem = ({ to, children }: LinkItemProps) => (
-  <Link to={to} className='hover:underline whitespace-nowrap'>
-    {children}
-  </Link>
-)

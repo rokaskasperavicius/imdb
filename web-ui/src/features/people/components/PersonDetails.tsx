@@ -43,7 +43,7 @@ export const PersonDetails = ({ id, knownForMovies }: Props) => {
         {(loaded) => (
           <div>
             <Image
-              src={url || 'https://placehold.co/300x444'}
+              src={url}
               alt={person?.primaryName || 'Person Poster'}
               className='w-auto h-auto'
             />

@@ -1,4 +1,5 @@
 import 'bootstrap-icons/font/bootstrap-icons.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import { Navigate, Route, Routes } from 'react-router'
 
 import { MainLayout } from '@/layouts/MainLayout'

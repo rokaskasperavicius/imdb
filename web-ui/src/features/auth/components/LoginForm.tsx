@@ -66,7 +66,7 @@ export const LoginForm = () => {
 
         <p>
           Don't have an account?{' '}
-          <Link to='/register' className='underline'>
+          <Link to='/register' className='underline!'>
             Register here
           </Link>
         </p>
