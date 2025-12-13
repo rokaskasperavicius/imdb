@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router'
 import { Button } from '@/components/Button'
 import { InputForm } from '@/components/InputForm'
 
-import { useUser } from '@/shared/userContext'
+import { useUser } from '@/hooks/userContext'
 
 import { loginUser } from '../api'
 

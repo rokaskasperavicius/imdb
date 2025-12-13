@@ -5,7 +5,7 @@ import { Cast } from '@/features/cast/components/Cast'
 import { MovieDetails } from '@/features/movies/components/MovieDetails'
 import { RateMovie } from '@/features/ratings/components/RateMovie'
 
-import { useUser } from '@/shared/userContext'
+import { useUser } from '@/hooks/userContext'
 
 export const MovieDetailsPage = () => {
   const [user] = useUser()

@@ -27,10 +27,11 @@
     "paths": {
       "@/*": ["./src/*"],
       "@/app/*": ["./src/app/*"],
+      "@/common/*": ["./src/common/*"],
       "@/components/*": ["./src/components/*"],
       "@/features/*": ["./src/features/*"],
+      "@/hooks/*": ["./src/hooks/*"],
       "@/layouts/*": ["./src/layouts/*"],
-      "@/shared/*": ["./src/shared/*"],
       "@/types/*": ["./src/types/*"],
     },
   },

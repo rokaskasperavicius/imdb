@@ -7,7 +7,7 @@ import {
 import { Image } from '@/components/Image'
 import { Loader } from '@/components/Loader'
 
-import { usePersonPoster } from '@/shared/usePersonPoster'
+import { usePersonPoster } from '@/hooks/usePersonPoster'
 
 import { fetchCast } from '../api'
 import type { CastType } from '../types'

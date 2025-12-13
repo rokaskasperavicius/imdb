@@ -4,7 +4,7 @@ import { Bookmarks } from '@/features/bookmarks/components/Bookmarks'
 import { BatchMovies } from '@/features/movies/components/BatchMovies'
 import { Ratings } from '@/features/ratings/components/Ratings'
 
-import { useUser } from '@/shared/userContext'
+import { useUser } from '@/hooks/userContext'
 
 export const ProfilePage = () => {
   const [user] = useUser()

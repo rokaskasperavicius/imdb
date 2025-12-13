@@ -2,7 +2,7 @@ import { Link } from 'react-router'
 
 import { Image } from '@/components/Image'
 
-import { usePersonPoster } from '@/shared/usePersonPoster'
+import { usePersonPoster } from '@/hooks/usePersonPoster'
 
 import type { PersonType } from '../types'
 

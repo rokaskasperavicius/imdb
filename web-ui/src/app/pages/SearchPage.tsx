@@ -5,7 +5,7 @@ import { useDebounce } from 'react-use'
 import { SearchMovies } from '@/features/movies/components/SearchMovies'
 import { SearchHistory } from '@/features/search/components/SearchHistory'
 
-import { useUser } from '@/shared/userContext'
+import { useUser } from '@/hooks/userContext'
 
 export const SearchPage = () => {
   const [reloadFlag, setReloadFlag] = useState<boolean>(false)

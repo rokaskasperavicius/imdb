@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router'
 
 import { App } from '@/app/App'
 
-import { UserProvider } from '@/shared/userContext'
+import { UserProvider } from '@/hooks/userContext'
 
 import './index.css'
 

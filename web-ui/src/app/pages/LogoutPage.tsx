@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { Navigate } from 'react-router'
 
-import { useUser } from '@/shared/userContext'
+import { useUser } from '@/hooks/userContext'
 
 export const LogoutPage = () => {
   const [, setUser] = useUser()

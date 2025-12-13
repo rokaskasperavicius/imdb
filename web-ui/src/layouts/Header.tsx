@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 
-import { useUser } from '@/shared/userContext'
+import { useUser } from '@/hooks/userContext'
 
 export const Header = () => {
   const [user] = useUser()
