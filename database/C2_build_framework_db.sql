@@ -13,7 +13,7 @@ CREATE TABLE users (
 CREATE TABLE user_title_bookmarks (
     user_id INT,
     basic_tconst CHARACTER(10) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     PRIMARY KEY (user_id, basic_tconst),
     FOREIGN KEY (basic_tconst) REFERENCES basics(tconst) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
@@ -22,8 +22,8 @@ CREATE TABLE user_title_bookmarks (
 CREATE TABLE user_title_ratings (
     user_id INT,
     basic_tconst CHARACTER(10) NOT NULL,
-    rating INT CHECK (rating >= 1 AND rating <= 10),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    rating INT CHECK (rating >= 1 AND rating <= 10) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     PRIMARY KEY (user_id, basic_tconst),
     FOREIGN KEY (basic_tconst) REFERENCES basics(tconst) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
@@ -31,8 +31,9 @@ CREATE TABLE user_title_ratings (
 
 CREATE TABLE user_search_history (
     id SERIAL PRIMARY KEY,
-    user_id INT,
+    user_id INT NOT NULL,
     search_query TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    UNIQUE (user_id, search_query),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );

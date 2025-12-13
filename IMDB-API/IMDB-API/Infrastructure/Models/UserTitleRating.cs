@@ -9,9 +9,9 @@ public partial class UserTitleRating
 
     public string BasicTconst { get; set; } = null!;
 
-    public int? Rating { get; set; }
+    public int Rating { get; set; }
 
-    public DateTime? CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
 
     public virtual Basic BasicTconstNavigation { get; set; } = null!;
 

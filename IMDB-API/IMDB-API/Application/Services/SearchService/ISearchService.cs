@@ -4,5 +4,5 @@ namespace IMDB_API.Application.Services;
 
 public interface ISearchService
 {
-    Task<SearchDto> GetSearchResults(int userId, string searchQuery);
+    Task<List<SearchDto>> GetUserSearches(int userId);
 }

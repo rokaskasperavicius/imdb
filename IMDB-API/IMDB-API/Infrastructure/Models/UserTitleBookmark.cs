@@ -9,7 +9,7 @@ public partial class UserTitleBookmark
 
     public string BasicTconst { get; set; } = null!;
 
-    public DateTime? CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
 
     public virtual Basic BasicTconstNavigation { get; set; } = null!;
 

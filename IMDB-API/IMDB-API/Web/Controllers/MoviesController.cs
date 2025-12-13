@@ -2,6 +2,7 @@ using IMDB_API.Application.Common;
 using IMDB_API.Application.DTOs;
 using IMDB_API.Application.Services;
 using IMDB_API.Web.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMDB_API.Web.Controllers;
@@ -35,6 +36,19 @@ public class MoviesController : ControllerBase
     {
         var result =
             await _moviesService.GetMovies(query.Page, query.PageSize);
+
+        return Ok(result);
+    }
+
+    // GET: api/movies/search
+    [HttpGet("search")]
+    [Authorize]
+    public async Task<ActionResult<List<MovieDto>>> GetMoviesBySearch(
+        ICurrentUser currentUser,
+        [FromQuery] string query)
+    {
+        var result =
+            await _moviesService.GetMoviesBySearch(currentUser.Id, query);
 
         return Ok(result);
     }

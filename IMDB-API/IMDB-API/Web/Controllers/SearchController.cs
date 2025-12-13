@@ -20,12 +20,11 @@ public class SearchController : ControllerBase
     // GET: api/search
     [HttpGet]
     [Authorize]
-    public async Task<ActionResult<SearchDto>> Search(
-        ICurrentUser currentUser,
-        [FromQuery] string query)
+    public async Task<ActionResult<List<SearchDto>>> Search(
+        ICurrentUser currentUser)
     {
         var result =
-            await _searchService.GetSearchResults(currentUser.Id, query);
+            await _searchService.GetUserSearches(currentUser.Id);
 
         return Ok(result);
     }

@@ -51,7 +51,8 @@ public class RatingsService : IRatingsService
         return new RatingDto
         {
             Id = rating.TitleId.Trim(),
-            Rating = rating.TitleRating ?? 0
+            CreatedAt = rating.CreatedAt,
+            Rating = rating.TitleRating
         };
     }
 }

@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using IMDB_API.Application.DTOs;
 using IMDB_API.Application.Services;
+using IMDB_API.Web.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMDB_API.Web.Controllers;
@@ -47,7 +48,10 @@ public class UsersController : ControllerBase
         }
         catch (Exception ex)
         {
-            return Conflict(ex.Message);
+            return Conflict(new ErrorMessage
+            {
+                Message = ex.Message
+            });
         }
     }
 
@@ -65,7 +69,10 @@ public class UsersController : ControllerBase
         }
         catch (Exception ex)
         {
-            return Unauthorized(ex.Message);
+            return BadRequest(new ErrorMessage
+            {
+                Message = ex.Message
+            });
         }
     }
 }

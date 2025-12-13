@@ -9,7 +9,7 @@ public partial class Principal
 
     public int Ordering { get; set; }
 
-    public string? Nconst { get; set; }
+    public string Nconst { get; set; } = null!;
 
     public string Category { get; set; } = null!;
 
@@ -17,7 +17,7 @@ public partial class Principal
 
     public string? Characters { get; set; }
 
-    public virtual Name? NconstNavigation { get; set; }
+    public virtual Name NconstNavigation { get; set; } = null!;
 
     public virtual Basic TconstNavigation { get; set; } = null!;
 }

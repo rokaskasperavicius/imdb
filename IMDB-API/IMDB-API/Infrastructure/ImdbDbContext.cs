@@ -42,8 +42,6 @@ public partial class ImdbDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // modelBuilder.Entity<SearchRow>().HasNoKey();
-
         modelBuilder.Entity<Aka>(entity =>
         {
             entity.HasKey(e => new { e.Tconst, e.Ordering })
@@ -328,7 +326,6 @@ public partial class ImdbDbContext : DbContext
 
             entity.HasOne(d => d.NconstNavigation).WithMany(p => p.Principals)
                 .HasForeignKey(d => d.Nconst)
-                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("principals_nconst_fkey");
 
             entity.HasOne(d => d.TconstNavigation).WithMany(p => p.Principals)
@@ -393,6 +390,9 @@ public partial class ImdbDbContext : DbContext
 
             entity.ToTable("user_search_history");
 
+            entity.HasIndex(e => new { e.UserId, e.SearchQuery },
+                "user_search_history_user_id_search_query_key").IsUnique();
+
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -403,7 +403,6 @@ public partial class ImdbDbContext : DbContext
 
             entity.HasOne(d => d.User).WithMany(p => p.UserSearchHistories)
                 .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("user_search_history_user_id_fkey");
         });
 

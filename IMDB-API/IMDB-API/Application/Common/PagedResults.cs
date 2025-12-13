@@ -2,10 +2,11 @@ namespace IMDB_API.Application.Common;
 
 public class PagedResults<T>
 {
-    public T Data { get; set; }
-    public int TotalCount { get; set; }
-    public int Page { get; set; }
-    public int PageSize { get; set; }
+    public required T Data { get; set; }
+    public required int TotalCount { get; set; }
+    public required int Page { get; set; }
+    public required int PageSize { get; set; }
 
-    public int TotalPages => (int)Math.Ceiling((double)TotalCount / PageSize);
+    public int TotalPages =>
+        (int)Math.Ceiling((double)TotalCount / PageSize);
 }

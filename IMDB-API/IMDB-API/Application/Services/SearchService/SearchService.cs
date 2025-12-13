@@ -5,34 +5,26 @@ namespace IMDB_API.Application.Services;
 
 public class SearchService : ISearchService
 {
-    private readonly IMoviesRepository _moviesRepository;
+    private readonly IUserSearchRepository _userSearchRepository;
 
-    public SearchService(IMoviesRepository moviesRepository)
+    public SearchService(IUserSearchRepository userSearchRepository)
     {
-        _moviesRepository = moviesRepository;
+        _userSearchRepository = userSearchRepository;
     }
 
-    public async Task<SearchDto> GetSearchResults(int userId,
-        string searchQuery)
+    public async Task<List<SearchDto>> GetUserSearches(int userId)
     {
-        var movies =
-            await _moviesRepository.GetMoviesBySearch(userId, searchQuery);
+        var userSearches =
+            await _userSearchRepository.GetUserSearches(userId);
 
-        return new SearchDto
-        {
-            Movies = movies.Select(movie => new MovieDto
+        var mapped =
+            userSearches.Select(us => new SearchDto
             {
-                Id = movie.Id.Trim(),
-                Title = movie.Title,
-                IsAdult = movie.IsAdult,
-                Year = movie.Year,
-                Plot = movie.Plot,
-                Poster = movie.Poster,
-                RunTimeInMinutes = movie.RunTimeInMinutes,
-                AverageRating = movie.AverageRating,
-                NumberOfVotes = movie.NumberOfVotes,
-                Genres = movie.Genres.Select(g => g.Name).ToList()
-            }).ToList()
-        };
+                Id = us.Id,
+                Query = us.Query,
+                CreatedAt = us.CreatedAt
+            }).ToList();
+
+        return mapped;
     }
 }

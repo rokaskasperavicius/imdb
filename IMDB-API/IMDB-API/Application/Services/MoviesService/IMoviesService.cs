@@ -13,4 +13,5 @@ public interface IMoviesService
 
     Task<List<MovieDto>> GetRelatedMovies(string tconst);
     Task<List<MovieDto>> GetMoviesBatch(List<string> ids);
+    Task<List<MovieDto>> GetMoviesBySearch(int userId, string searchQuery);
 }

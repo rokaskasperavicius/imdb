@@ -43,6 +43,7 @@ builder.Services.AddScoped<IBookmarksRepository, BookmarkRepository>();
 builder.Services.AddScoped<IMoviesRepository, MoviesRepository>();
 builder.Services.AddScoped<IRatingRepository, RatingRepository>();
 builder.Services.AddScoped<ICastRepository, CastRepository>();
+builder.Services.AddScoped<IUserSearchRepository, UserSearchRepository>();
 
 // Services
 builder.Services.AddScoped<IPeopleService, PeopleService>();
