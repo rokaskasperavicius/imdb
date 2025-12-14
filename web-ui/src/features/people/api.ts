@@ -1,3 +1,5 @@
+import type { NavigateFunction } from 'react-router'
+
 import type { AllPeopleType, PersonDetails, RelatedPeople } from './types'
 
 export const fetchPeople = async (page: number = 1): Promise<AllPeopleType> => {
@@ -6,8 +8,16 @@ export const fetchPeople = async (page: number = 1): Promise<AllPeopleType> => {
   return data
 }
 
-export const fetchPerson = async (id: string): Promise<PersonDetails> => {
+export const fetchPerson = async (
+  id: string,
+  navigate: NavigateFunction,
+): Promise<PersonDetails> => {
   const response = await fetch(`/api/people/${id}`)
+
+  if (response.status === 404) {
+    navigate('/movies', { replace: true })
+  }
+
   const data = await response.json()
   return data
 }

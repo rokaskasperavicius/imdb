@@ -9,7 +9,7 @@ export const Header = () => {
 
   return (
     <header className='px-5'>
-      <Navbar expand='lg' className='w-full'>
+      <Navbar expand='sm' className='w-full'>
         <Navbar.Brand href='/movies'>IMDB</Navbar.Brand>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
 

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 
+import { isArrayNotEmpty } from '@/common/helper'
+
 import { Loader } from '@/components/Loader'
 import { Pagination } from '@/components/Pagination/Pagination'
 
@@ -7,8 +9,12 @@ import { fetchPeople } from '../api'
 import type { AllPeopleType } from '../types'
 import { Person } from './Person'
 
-export const People = () => {
-  const [page, setPage] = useState(1)
+type Props = {
+  page: number
+  onPageChange: (page: number) => void
+}
+
+export const People = ({ page, onPageChange }: Props) => {
   const [people, setPeople] = useState<AllPeopleType>()
 
   useEffect(() => {
@@ -27,19 +33,27 @@ export const People = () => {
       <div role='list' className='flex flex-col gap-6'>
         <Loader data={people} type='vertical'>
           {(loaded) =>
-            loaded.data?.map((person, index) => (
-              <Person
-                key={person.id}
-                person={person}
-                personCount={(loaded.page - 1) * loaded.pageSize + index + 1}
-              />
-            ))
+            isArrayNotEmpty(loaded.data) ? (
+              loaded.data.map((person, index) => (
+                <Person
+                  key={person.id}
+                  person={person}
+                  personCount={(loaded.page - 1) * loaded.pageSize + index + 1}
+                />
+              ))
+            ) : (
+              <div>No people found.</div>
+            )
           }
         </Loader>
       </div>
 
-      {people && (
-        <Pagination count={people.totalPages} page={page} onChange={setPage} />
+      {people && isArrayNotEmpty(people.data) && (
+        <Pagination
+          count={people.totalPages}
+          page={page}
+          onChange={onPageChange}
+        />
       )}
     </div>
   )

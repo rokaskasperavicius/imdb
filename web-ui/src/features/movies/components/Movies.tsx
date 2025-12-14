@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 
+import { isArrayNotEmpty } from '@/common/helper'
+
 import { Loader } from '@/components/Loader'
 import { Pagination } from '@/components/Pagination/Pagination'
 
@@ -7,8 +9,12 @@ import { fetchMovies } from '../api'
 import type { AllMovies } from '../types'
 import { Movie } from './Movie'
 
-export const Movies = () => {
-  const [page, setPage] = useState(1)
+type Props = {
+  page: number
+  onPageChange: (page: number) => void
+}
+
+export const Movies = ({ page, onPageChange }: Props) => {
   const [movies, setMovies] = useState<AllMovies>()
 
   useEffect(() => {
@@ -27,19 +33,27 @@ export const Movies = () => {
       <div role='list' className='flex flex-col gap-6'>
         <Loader data={movies} type='vertical'>
           {(loaded) =>
-            loaded.data?.map((movie, index) => (
-              <Movie
-                key={movie.id}
-                movie={movie}
-                titleCount={(loaded.page - 1) * loaded.pageSize + index + 1}
-              />
-            ))
+            isArrayNotEmpty(loaded.data) ? (
+              loaded.data.map((movie, index) => (
+                <Movie
+                  key={movie.id}
+                  movie={movie}
+                  titleCount={(loaded.page - 1) * loaded.pageSize + index + 1}
+                />
+              ))
+            ) : (
+              <div>No movies found.</div>
+            )
           }
         </Loader>
       </div>
 
-      {movies && (
-        <Pagination page={page} count={movies.totalPages} onChange={setPage} />
+      {movies && isArrayNotEmpty(movies.data) && (
+        <Pagination
+          page={page}
+          count={movies.totalPages}
+          onChange={onPageChange}
+        />
       )}
     </div>
   )

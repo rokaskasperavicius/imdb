@@ -49,8 +49,16 @@ export const fetchMoviesBatch = async (
   return data
 }
 
-export const fetchMovie = async (id: string): Promise<MovieDetails> => {
+export const fetchMovie = async (
+  id: string,
+  navigate: NavigateFunction,
+): Promise<MovieDetails> => {
   const response = await fetch(`/api/movies/${id}`)
+
+  if (response.status === 404) {
+    navigate('/movies', { replace: true })
+  }
+
   const data = await response.json()
   return data
 }

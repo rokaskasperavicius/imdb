@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router'
 
 import {
   HorizontalContent,
@@ -21,13 +22,14 @@ type Props = {
 }
 
 export const PersonDetails = ({ id, knownForMovies }: Props) => {
+  const navigate = useNavigate()
   const url = usePersonPoster(id)
   const [person, setPerson] = useState<PersonDetailsType>()
   const [relatedPeople, setRelatedPeople] = useState<RelatedPeople>()
 
   useEffect(() => {
     const load = async () => {
-      const personData = await fetchPerson(id)
+      const personData = await fetchPerson(id, navigate)
       const relatedPeopleData = await fetchRelatedPeople(id)
 
       setPerson(personData)
@@ -35,7 +37,7 @@ export const PersonDetails = ({ id, knownForMovies }: Props) => {
     }
 
     load()
-  }, [id])
+  }, [id, navigate])
 
   return (
     <div className='space-y-4'>
