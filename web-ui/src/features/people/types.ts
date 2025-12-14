@@ -3,6 +3,9 @@ import type { paths } from '@/types/schema'
 export type AllPeopleType =
   paths['/api/People']['get']['responses']['200']['content']['application/json']
 
+export type AllPeopleBySearch =
+  paths['/api/People/search']['get']['responses']['200']['content']['application/json']
+
 export type PersonType = NonNullable<AllPeopleType['data']>[number]
 
 export type PersonDetails =

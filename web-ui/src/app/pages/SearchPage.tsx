@@ -3,6 +3,7 @@ import { Navigate, useSearchParams } from 'react-router'
 import { useDebounce } from 'react-use'
 
 import { SearchMovies } from '@/features/movies/components/SearchMovies'
+import { SearchPeople } from '@/features/people/components/SearchPeople'
 import { SearchHistory } from '@/features/search/components/SearchHistory'
 
 import { useUser } from '@/hooks/userContext'
@@ -32,7 +33,7 @@ export const SearchPage = () => {
 
   return (
     <div className='space-y-4'>
-      <h2>Search your favorite movies</h2>
+      <h2>Search for movies and people</h2>
 
       <SearchHistory
         token={user.token}
@@ -42,11 +43,21 @@ export const SearchPage = () => {
       />
 
       {debounced && (
-        <SearchMovies
-          query={debounced}
-          token={user.token}
-          reload={() => setReloadFlag((r) => !r)}
-        />
+        <>
+          <SearchMovies
+            query={debounced}
+            token={user.token}
+            reload={() => setReloadFlag((r) => !r)}
+          />
+
+          <div className='w-full h-px bg-neutral-200' />
+
+          <SearchPeople
+            query={debounced}
+            token={user.token}
+            reload={() => setReloadFlag((r) => !r)}
+          />
+        </>
       )}
     </div>
   )

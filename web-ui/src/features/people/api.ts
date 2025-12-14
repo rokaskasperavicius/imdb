@@ -1,9 +1,39 @@
 import type { NavigateFunction } from 'react-router'
 
-import type { AllPeopleType, PersonDetails, RelatedPeople } from './types'
+import type {
+  AllPeopleBySearch,
+  AllPeopleType,
+  PersonDetails,
+  RelatedPeople,
+} from './types'
 
 export const fetchPeople = async (page: number = 1): Promise<AllPeopleType> => {
   const response = await fetch(`/api/people?page=${page}&pageSize=10`)
+  const data = await response.json()
+  return data
+}
+
+// Authenticated
+export const fetchPeopleBySearch = async (
+  query: string,
+  token: string,
+  navigate: NavigateFunction,
+): Promise<AllPeopleBySearch> => {
+  const response = await fetch(
+    `/api/people/search?query=${encodeURIComponent(query)}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  )
+
+  if (response.status === 401) {
+    navigate('/logout', { replace: true })
+
+    return []
+  }
+
   const data = await response.json()
   return data
 }

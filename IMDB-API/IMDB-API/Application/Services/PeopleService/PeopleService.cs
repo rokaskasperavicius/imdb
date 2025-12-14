@@ -56,6 +56,15 @@ public class PeopleService : IPeopleService
         return people.Select(PersonToDto).ToList();
     }
 
+    public async Task<List<PersonDto>> GetPeopleBySearch(int userId,
+        string searchQuery)
+    {
+        var people =
+            await _peopleRepository.GetPeopleBySearch(userId, searchQuery);
+
+        return people.Select(PersonToDto).ToList();
+    }
+
     private static PersonDto PersonToDto(Person person)
     {
         return new PersonDto

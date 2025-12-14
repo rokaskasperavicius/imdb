@@ -53,8 +53,7 @@ public class PeopleRepository : IPeopleRepository
     {
         var people = await _imdbDbContext.Names
             .AsNoTracking()
-            .OrderByDescending(p => p.Rating ?? 0)
-            .ThenBy(p => p.Primaryname)
+            .OrderBy(p => p.Primaryname)
             .Skip(skip)
             .Take(take)
             .Select(PersonProjection)
@@ -98,5 +97,28 @@ public class PeopleRepository : IPeopleRepository
             .OrderByDescending(p => freqDic[p.Id])
             .ThenBy(p => p.Name)
             .ToList();
+    }
+
+    public async Task<List<Person>> GetPeopleBySearch(int userId, string search)
+    {
+        var user = new NpgsqlParameter("user", userId);
+        var query = new NpgsqlParameter("query", search);
+
+        var rows = await _imdbDbContext.Database
+            .SqlQueryRaw<PeopleSearchRow>(
+                "select * from f_string_search_names({0}, {1})", user, query)
+            .ToListAsync();
+
+        var ids = rows.Select(r => r.Nconst).Distinct().ToList();
+
+        var people = await _imdbDbContext.Names
+            .AsNoTracking()
+            .Where(b => ids.Contains(b.Nconst))
+            .OrderByDescending(p => p.Rating ?? 0)
+            .ThenBy(p => p.Primaryname)
+            .Select(PersonProjection)
+            .ToListAsync();
+
+        return people;
     }
 }

@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router'
 
 import { Loader } from '@/components/Loader'
 
-import { fetchMoviesBySearch } from '../api'
-import type { AllMoviesBySearch } from '../types'
-import { Movie } from './Movie'
+import { fetchPeopleBySearch } from '../api'
+import type { AllPeopleBySearch } from '../types'
+import { Person } from './Person'
 
 type Props = {
   query: string
@@ -13,16 +13,16 @@ type Props = {
   reload: () => void
 }
 
-export const SearchMovies = ({ query, token, reload }: Props) => {
+export const SearchPeople = ({ query, token, reload }: Props) => {
   const navigate = useNavigate()
-  const [movies, setMovies] = useState<AllMoviesBySearch>()
+  const [people, setPeople] = useState<AllPeopleBySearch>()
 
   useEffect(() => {
     const load = async () => {
-      setMovies(undefined) // Show loader on new search
+      setPeople(undefined) // Show loader on new search
 
-      const data = await fetchMoviesBySearch(query, token, navigate)
-      setMovies(data)
+      const data = await fetchPeopleBySearch(query, token, navigate)
+      setPeople(data)
 
       // Notifies parent to reload search history
       reload()
@@ -34,16 +34,20 @@ export const SearchMovies = ({ query, token, reload }: Props) => {
 
   return (
     <div>
-      <h3>Movies</h3>
+      <h3>People</h3>
 
       <div role='list' className='flex flex-col gap-6'>
-        <Loader data={movies} type='vertical'>
+        <Loader data={people} type='vertical'>
           {(loaded) =>
             loaded.length === 0 ? (
               <p>No results found for "{query}"</p>
             ) : (
-              loaded.map((movie, index) => (
-                <Movie key={movie.id} movie={movie} titleCount={index + 1} />
+              loaded.map((person, index) => (
+                <Person
+                  key={person.id}
+                  person={person}
+                  personCount={index + 1}
+                />
               ))
             )
           }

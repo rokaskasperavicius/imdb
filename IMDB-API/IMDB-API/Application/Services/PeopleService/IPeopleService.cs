@@ -9,4 +9,5 @@ public interface IPeopleService
     Task<PersonDto?> GetPerson(string nconst);
     Task<List<PersonDto>> GetRelatedPeople(string nconst);
     Task<List<PersonDto>> GetPeopleBatch(List<string> ids);
+    Task<List<PersonDto>> GetPeopleBySearch(int userId, string searchQuery);
 }

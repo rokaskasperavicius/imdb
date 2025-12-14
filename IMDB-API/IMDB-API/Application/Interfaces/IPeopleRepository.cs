@@ -10,4 +10,5 @@ public interface IPeopleRepository
     Task<Person?> GetPerson(string nconst);
     Task<List<Person>> GetRelatedPeople(string nconst);
     Task<List<Person>> GetPeopleByIds(List<string> ids);
+    Task<List<Person>> GetPeopleBySearch(int userId, string search);
 }

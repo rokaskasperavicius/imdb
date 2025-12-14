@@ -2,6 +2,7 @@ using IMDB_API.Application.Common;
 using IMDB_API.Application.DTOs;
 using IMDB_API.Application.Services;
 using IMDB_API.Web.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMDB_API.Web.Controllers;
@@ -23,6 +24,19 @@ public class PeopleController : ControllerBase
         PagedQuery query, [FromQuery] List<string> ids)
     {
         var result = await _peopleService.GetPeople(query.Page, query.PageSize);
+
+        return Ok(result);
+    }
+
+    // GET: api/people/search
+    [HttpGet("search")]
+    [Authorize]
+    public async Task<ActionResult<List<PersonDto>>> GetPeopleBySearch(
+        ICurrentUser currentUser,
+        [FromQuery] string query)
+    {
+        var result =
+            await _peopleService.GetPeopleBySearch(currentUser.Id, query);
 
         return Ok(result);
     }
